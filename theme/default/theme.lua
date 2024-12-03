@@ -23,7 +23,7 @@ local theme = {}
 
 theme.font          = "Bahnschrift 13"
 
-theme.bg_normal     = "#222222"
+theme.bg_normal     = "#1C1B1A"
 theme.bg_focus      = "#AF3029"
 theme.bg_urgent     = "#ff0000"
 theme.bg_minimize   = "#444444"
