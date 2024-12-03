@@ -1,0 +1,174 @@
+#!/bin/bash
+
+# Fichier temporaire pour stocker la luminosité précédente
+temp_file="/tmp/previous_brightness"
+# Fichier de verrouillage pour indiquer que set_brightness_to_low_slow est en cours d'exécution
+lock_file="/tmp/brightness_lock"
+
+# Vérifier si l'ordinateur est en charge
+charging_status=$(cat /sys/class/power_supply/AC/online)
+
+# Fonction pour ajuster la luminosité de manière incrémentale/décrémentale
+adjust_brightness() {
+    local direction=$1
+    local step=$2
+    local I=0
+
+    while [ $I -lt 10 ]; do
+        current_brightness=$(brightnessctl -c backlight g)
+        max_brightness=$(brightnessctl -c backlight m)
+        current_brightness_percent=$((current_brightness * 100 / max_brightness))
+
+        if [ "$direction" == "inc" ]; then
+            brightnessctl -c backlight -q s +$step%
+        elif [ "$direction" == "dec" ]; then
+            if [ "$current_brightness_percent" -le 1 ]; then
+                echo "Luminosité déjà à 1 % ou moins."
+                return
+            fi
+            brightnessctl -c backlight -q s $step%-
+        fi
+        sleep 0.0025
+        ((I = I + 1))
+    done
+}
+
+# Fonction pour régler la luminosité à un niveau spécifique (transition smooth)
+set_brightness_to_low() {
+    if [ "$charging_status" -eq 1 ]; then
+        echo "L'ordinateur est en charge. L'action --set-low ne sera pas exécutée."
+        return
+    fi
+
+    # Lire la luminosité actuelle et la stocker
+    previous_brightness=$(brightnessctl -c backlight g)
+    echo "$previous_brightness" > "$temp_file"
+    local target_brightness=10  # Pourcentage cible
+    local current_brightness
+    local step_size=1           # Taille des étapes en pourcentage
+
+    # Lire la luminosité actuelle
+    current_brightness=$(brightnessctl -c backlight g)
+    max_brightness=$(brightnessctl -c backlight m)
+    current_brightness_percent=$((current_brightness * 100 / max_brightness))
+
+    echo "Luminosité actuelle : $current_brightness_percent%"
+
+    # Calculer la direction
+    if [ "$current_brightness_percent" -gt "$target_brightness" ]; then
+        direction="dec"
+    else
+        echo "Déjà à 10 % ou moins."
+        return
+    fi
+
+    # Réduire progressivement jusqu'à atteindre 10 %
+    while [ "$current_brightness_percent" -gt "$target_brightness" ]; do
+        if [ "$direction" == "dec" ]; then
+            brightnessctl -c backlight -q s $step_size%-
+        fi
+        sleep 0.0025
+        current_brightness=$(brightnessctl -c backlight g)
+        current_brightness_percent=$((current_brightness * 100 / max_brightness))
+    done
+}
+
+# Fonction pour restaurer la luminosité précédente de manière smooth et rapide
+set_brightness_back() {
+    if [ ! -f "$temp_file" ]; then
+        echo "Aucune luminosité précédente enregistrée."
+        return
+    fi
+
+    # Supprimer le fichier de verrouillage pour interrompre set_brightness_to_low_slow
+    if [ -f "$lock_file" ]; then
+        rm -f "$lock_file"
+    fi
+
+    previous_brightness=$(cat "$temp_file")
+    max_brightness=$(brightnessctl -c backlight m)
+    previous_brightness_percent=$((previous_brightness * 100 / max_brightness))
+
+    current_brightness=$(brightnessctl -c backlight g)
+    current_brightness_percent=$((current_brightness * 100 / max_brightness))
+
+    echo "Restauration de la luminosité à : ${previous_brightness_percent}%"
+
+    # Augmenter progressivement jusqu'à atteindre la luminosité précédente
+    while [ "$current_brightness_percent" -lt "$previous_brightness_percent" ]; do
+        brightnessctl -c backlight -q s +5%
+        sleep 0.001
+        current_brightness=$(brightnessctl -c backlight g)
+        current_brightness_percent=$((current_brightness * 100 / max_brightness))
+    done
+
+    echo "Luminosité restaurée à : ${previous_brightness_percent}%"
+}
+
+# Fonction pour régler la luminosité à 0 % de manière lente et smooth
+set_brightness_to_low_slow() {
+    # Créer un fichier de verrouillage
+    touch "$lock_file"
+
+    # Lire la luminosité actuelle et la stocker
+    previous_brightness=$(brightnessctl -c backlight g)
+    echo "$previous_brightness" > "$temp_file"
+    local target_brightness=0  # Valeur cible
+    local current_brightness
+    local step_size=1           # Taille des étapes en pourcentage
+
+    # Lire la luminosité actuelle
+    current_brightness=$(brightnessctl -c backlight g)
+    max_brightness=$(brightnessctl -c backlight m)
+    current_brightness_percent=$((current_brightness * 100 / max_brightness))
+
+    echo "Luminosité actuelle : $current_brightness_percent%"
+
+    # Calculer la direction
+    if [ "$current_brightness" -gt "$target_brightness" ]; then
+        direction="dec"
+    else
+        echo "Déjà à 0."
+        rm -f "$lock_file"
+        return
+    fi
+
+    # Réduire progressivement jusqu'à atteindre 0 sur 4 secondes
+    while [ "$current_brightness" -gt "$target_brightness" ]; do
+        if [ ! -f "$lock_file" ]; then
+            echo "Interrompu par un appel à --set-back."
+            return
+        fi
+        if [ "$direction" == "dec" ]; then
+            brightnessctl -c backlight -q s $step_size%-
+        fi
+        sleep 0.05
+        current_brightness=$(brightnessctl -c backlight g)
+    done
+
+    # Supprimer le fichier de verrouillage
+    rm -f "$lock_file"
+}
+
+# Vérification de l'argument et exécution de l'action demandée
+case "$1" in
+    --inc)
+        adjust_brightness "inc" 1
+        ;;
+    --dec)
+        adjust_brightness "dec" 1
+        ;;
+    --set-low)
+        set_brightness_to_low
+        ;;
+    --set-back)
+        set_brightness_back
+        ;;
+    --set-low-slow)
+        set_brightness_to_low_slow
+        ;;
+    *)
+        echo "Usage: $0 --inc | --dec | --set-low | --set-back | --set-low-slow"
+        exit 1
+        ;;
+esac
