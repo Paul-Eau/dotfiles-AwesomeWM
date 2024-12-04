@@ -3,7 +3,6 @@ local naughty = require("naughty")
 local gears = require("gears")
 local wibox = require("wibox")
 local beautiful = require("beautiful")
-local theme = require("theme.default.theme")
 
 -- Fonction pour calculer le niveau moyen de batterie
 local function calculate_average_battery_level(acpi_output)
@@ -37,17 +36,17 @@ end
 -- Fonction pour choisir l'icône en fonction du niveau de batterie et de l'état de charge
 local function get_battery_icon(battery_level, charging)
     if charging then
-        return theme.battery_charging
+        return beautiful.battery_charging
     elseif battery_level >= 80 then
-        return theme.battery_4
+        return beautiful.battery_4
     elseif battery_level >= 60 then
-        return theme.battery_3
+        return beautiful.battery_3
     elseif battery_level >= 40 then
-        return theme.battery_2
+        return beautiful.battery_2
     elseif battery_level >= 20 then
-        return theme.battery_1
+        return beautiful.battery_1
     else
-        return theme.battery_0
+        return beautiful.battery_0
     end
 end
 
@@ -65,27 +64,24 @@ end
 -- Créer le widget batterie
 local battery_widget = wibox.widget {
     {
-        widget = wibox.container.rotate,
-        direction = "west",
-        {
+
             widget = wibox.container.margin,
             margins = 2, -- Ajouter des marges pour centrer l'icône
             {
                 widget = wibox.container.place,
-                halign = "center",
-                valign = "center",
                 {
                     widget = wibox.widget.imagebox,
                     id = "icon",
-                    image = theme.battery_4, -- Icône par défaut
+                    halign = "center",
+                    valign = "center",
+                    image = beautiful.battery_4, -- Icône par défaut
                     resize = true,
                     forced_width = 32, -- Réduire la largeur de l'icône
                     forced_height = 32, -- Réduire la hauteur de l'icône
                 },
-            },
         },
     },
-    layout = wibox.layout.fixed.horizontal,
+    layout = wibox.layout.fixed.vertical,
 }
 
 -- Créer un tooltip pour afficher l'état de la batterie

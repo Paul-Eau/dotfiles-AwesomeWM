@@ -1,7 +1,6 @@
 local awful = require("awful")
 local wibox = require("wibox")
 local gears = require("gears")
-local theme = require("theme.default.theme")
 local beautiful = require("beautiful")
 
 local function recolor_image(icon, color)
@@ -37,30 +36,30 @@ local wifi_widget = wibox.widget {
     end
 }
 
-local wifi_tooltip = awful.tooltip {
-    objects = { wifi_widget },
-    mode = "outside",
-    align = "right",
-    preferred_positions = { "right", "left", "top", "bottom" }
-}
+-- local wifi_tooltip = awful.tooltip {
+--     objects = { wifi_widget },
+--     mode = "outside",
+--     align = "right",
+--     preferred_positions = { "right", "left", "top", "bottom" }
+-- }
 
 -- Mise à jour de l'icône en fonction du signal
 local function update_wifi_widget()
     get_wifi_signal(function(signal)
         local icon
         if signal == -1 then
-            icon = theme.wifi_fail
+            icon = beautiful.wifi_fail
         elseif signal == 0 then
-            icon = theme.wifi_0
+            icon = beautiful.wifi_0
         elseif signal > 0 and signal <= 45 then
-            icon = theme.wifi_1
+            icon = beautiful.wifi_1
         elseif signal > 45 and signal <= 66 then
-            icon = theme.wifi_2
+            icon = beautiful.wifi_2
         elseif signal > 66 then
-            icon = theme.wifi_2
+            icon = beautiful.wifi_2
         end
         wifi_widget:set_image(recolor_image(icon, beautiful.fg_normal))
-        wifi_tooltip.text = "Signal: " .. (signal == -1 and "No signal" or signal .. "%")
+        --wifi_tooltip.text = "Signal: " .. (signal == -1 and "No signal" or signal .. "%")
     end)
 end
 

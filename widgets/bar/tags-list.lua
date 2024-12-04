@@ -3,7 +3,6 @@ local wibox = require("wibox")
 local gears = require("gears")
 local beautiful = require("beautiful")
 local rubato = require("lib.rubato") -- Add rubato for animations
-local theme = require("theme.default.theme")
 
 local function tags_list_widget(s)
     return wibox.widget {
@@ -11,7 +10,7 @@ local function tags_list_widget(s)
             -- Taglist
             awful.widget.taglist {
                 screen  = s,
-                filter  = awful.widget.taglist.filter.all,
+                filter  = function(t) return t.index <= 5 end, -- Display only the first 5 tags
                 buttons = gears.table.join(
                     awful.button({}, 1, function(t) t:view_only() end),
                     awful.button({ modkey }, 1, function(t)
@@ -58,7 +57,7 @@ local function tags_list_widget(s)
                         -- Function to update the icon and background
                         local function update_tag()
                             if tag.selected then
-                                self.bg = theme.bg_focus -- Red background when selected
+                                self.bg = beautiful.bg_focus -- Red background when selected
                                 self.forced_width = 32 -- Larger size for active tags
                                 self.forced_height = 32
                             else
@@ -90,7 +89,7 @@ local function tags_list_widget(s)
                         -- Ensure consistency during updates
                         local icon_widget = self:get_children_by_id('icon_role')[1]
                         if tag.selected then
-                            self.bg = theme.bg_focus
+                            self.bg = beautiful.bg_focus
                             self.forced_width = 32
                             self.forced_height = 32
                         else
@@ -102,9 +101,9 @@ local function tags_list_widget(s)
                         -- Update icon based on clients
                         local icon_path
                         if #tag:clients() > 0 then
-                            icon_path = beautiful.tag_dot or gears.filesystem.get_configuration_dir() .. "theme/default/tags/tag-dot.svg"
+                            icon_path = beautiful.tag_dot
                         else
-                            icon_path = beautiful.tag_dot_empty or gears.filesystem.get_configuration_dir() .. "theme/default/tags/tag-dot-empty.svg"
+                            icon_path = beautiful.tag_dot_empty
                         end
                         icon_widget.image = gears.color.recolor_image(icon_path, beautiful.fg_normal)
                     end,

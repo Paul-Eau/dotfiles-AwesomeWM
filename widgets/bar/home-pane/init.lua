@@ -48,6 +48,7 @@ end)
 -- Position initiale (hors écran à droite)
 home_pane.x = screen_width
 home_pane.y = border_size * 2 + wibar_height  -- Position verticale avec bord supérieur et wibar
+home_pane.height = screen_height - wibar_height -- Hauteur du rectangle avec bords et wibar
 
 -- Créer l'animation Rubato pour la position X
 local x_anim = rubato.timed({
@@ -72,7 +73,7 @@ function home_pane:toggle()
         -- Si invisible, rendre visible et animer vers la gauche
         self.visible = true
         -- Réinitialiser la position avant de commencer l'animation
-        x_anim.target = screen_width - self.width - border_size  -- Position de destination proche du bord droit
+        x_anim.target = screen_width - self.width - border_size - 50  -- Position de destination à 10px de la wibar
     end
 end
 

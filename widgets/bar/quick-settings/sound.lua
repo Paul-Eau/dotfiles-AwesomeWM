@@ -3,7 +3,6 @@ local naughty = require("naughty")
 local gears = require("gears")
 local wibox = require("wibox")
 local beautiful = require("beautiful")
-local theme = require("theme.default.theme")
 local volume_service = require("services.volume") -- Assurez-vous que le chemin vers le fichier est correct
 
 -- Créer le widget son

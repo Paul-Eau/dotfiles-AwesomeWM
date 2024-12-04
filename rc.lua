@@ -16,7 +16,7 @@ local menubar = require("menubar")
 require("globals")
 
 -- Themes define colours, icons, font and wallpapers.
-beautiful.init(home .. "/.config/awesome/theme/default/theme.lua")
+beautiful.init(home .. "/.config/awesome/theme/theme.lua")
 beautiful.wallpaper = RC.vars.wallpaper
 
 modkey = RC.vars.modkey
@@ -65,7 +65,7 @@ awful.rules.rules = main.rules(
   binding.clientbuttons()
 )
 
-require("deco.statusbar")
+require("widgets.bar")
 require("main.signals")
 require("deco.rounded-corners")
 require("deco.windows-borders")

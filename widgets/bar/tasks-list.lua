@@ -1,13 +1,13 @@
--- {{{ Required libraries
+-- Standard awesome library
 local gears = require("gears")
 local awful = require("awful")
--- }}}
 
-local _M = {}
+-- Wibox handling library
+local wibox = require("wibox")
+
 
 -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
-function _M.get()
   local tasklist_buttons = gears.table.join(
     awful.button({ }, 1, function (c)
       if c == client.focus then
@@ -34,9 +34,22 @@ function _M.get()
     end)
   )
 
-  return tasklist_buttons
+
+
+
+local function tasklist_widget(s)
+  -- Create a tasklist widget
+  return awful.widget.tasklist {
+    screen  = s,
+    filter  = awful.widget.tasklist.filter.currenttags,
+    buttons = tasklist_buttons
+  }
 end
 
--- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+awful.screen.connect_for_each_screen(function(s)
+  s.mytasklist = tasklist_widget(s)
+end)
 
-return setmetatable({}, { __call = function(_, ...) return _M.get(...) end })
+
+
+return tasklist_widget
