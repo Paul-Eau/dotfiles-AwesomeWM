@@ -132,12 +132,13 @@ theme.battery_1 = themes_path.."default/battery/battery-1.svg"
 theme.battery_2 = themes_path.."default/battery/battery-2.svg"
 theme.battery_3 = themes_path.."default/battery/battery-3.svg"
 theme.battery_4 = themes_path.."default/battery/battery-4.svg"
-theme.battery_charging = themes_path.."default/battery/battery-charging.svg"
 
-theme.sound_0 = themes_path.."default/sound/sound-0.svg"
-theme.sound_1 = themes_path.."default/sound/sound-1.svg"
-theme.sound_2 = themes_path.."default/sound/sound-2.svg"
-theme.sound_mute = themes_path.."default/sound/sound-mute.svg"
+theme.battery_charging = themes_path.."default/battery/battery-charging-10.svg"
+
+theme.sound_0 = themes_path.."default/sound/speaker-0.svg"
+theme.sound_1 = themes_path.."default/sound/speaker-1.svg"
+theme.sound_2 = themes_path.."default/sound/speaker-2.svg"
+theme.sound_mute = themes_path.."default/sound/speaker-mute.svg"
 
 
 theme.wifi_0 = themes_path.."default/wifi/wifi-0.svg"

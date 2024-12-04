@@ -52,12 +52,12 @@ local function update_wifi_widget()
             icon = theme.wifi_fail
         elseif signal == 0 then
             icon = theme.wifi_0
-        elseif signal > 0 and signal <= 33 then
+        elseif signal > 0 and signal <= 45 then
             icon = theme.wifi_1
-        elseif signal > 33 and signal <= 66 then
+        elseif signal > 45 and signal <= 66 then
             icon = theme.wifi_2
         elseif signal > 66 then
-            icon = theme.wifi_3
+            icon = theme.wifi_2
         end
         wifi_widget:set_image(recolor_image(icon, beautiful.fg_normal))
         wifi_tooltip.text = "Signal: " .. (signal == -1 and "No signal" or signal .. "%")
