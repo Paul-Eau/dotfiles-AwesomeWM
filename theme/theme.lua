@@ -133,7 +133,7 @@ theme.battery_2 = themes_path.."bar/battery/battery-2.svg"
 theme.battery_3 = themes_path.."bar/battery/battery-3.svg"
 theme.battery_4 = themes_path.."bar/battery/battery-4.svg"
 
-theme.battery_charging = themes_path.."bar/battery/battery-charging-10.svg"
+theme.battery_charging_ = themes_path.."bar/battery/battery-charging-10.svg"
 
 theme.sound_0 = themes_path.."bar/sound/speaker-0.svg"
 theme.sound_1 = themes_path.."bar/sound/speaker-1.svg"
@@ -144,9 +144,14 @@ theme.sound_mute = themes_path.."bar/sound/speaker-mute.svg"
 theme.wifi_0 = themes_path.."bar/wifi/wifi-0.svg"
 theme.wifi_1 = themes_path.."bar/wifi/wifi-1.svg"
 theme.wifi_2 = themes_path.."bar/wifi/wifi-2.svg"
-theme.wifi_3 = themes_path.."bar/wifi/wifi-3.svg"
 theme.wifi_fail = themes_path.."bar/wifi/wifi-fail.svg"
 theme.wifi_off = themes_path.."bar/wifi/wifi-off.svg"
+
+theme.bluetooth_off = themes_path.."bar/bluetooth/bluetooth-off.svg"
+theme.bluetooth_on = themes_path.."bar/bluetooth/bluetooth-on.svg"
+theme.bluetooth_fail = themes_path.."bar/bluetooth/bluetooth-fail.svg"
+
+theme.chevron_right = themes_path.."misc/chevron-right.svg"
 
 
 
@@ -154,6 +159,13 @@ theme.logo = themes_path.."bar/home/logo.svg"
 
 theme.tag_dot = themes_path.."bar/tags/tag-dot.svg"
 theme.tag_dot_empty = themes_path.."bar/tags/tag-dot-empty.svg"
+
+
+
+theme.wifi_icon = themes_path.."bar/wifi/wifi-3.svg"
+theme.bluetooth_icon = themes_path.."bar/bluetooth/wifi-on.svg"
+
+
 
 
 -- Generate Awesome icon:

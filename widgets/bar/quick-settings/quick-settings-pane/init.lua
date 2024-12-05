@@ -8,7 +8,93 @@ local rubato = require("lib.rubato") -- Importation de Rubato
 
 local screen_width = screen.primary.geometry.width
 local border_size = 10 -- Taille des bords en pixels
-local wibar_height = 30 -- Hauteur de la wibar (ajustez si nécessaire)
+
+local volume_slider = require("widgets.bar.quick-settings.quick-settings-pane.volume-slider")
+local brightness_slider = require("widgets.bar.quick-settings.quick-settings-pane.brightness-slider")
+local create_toggle_button = require("widgets.bar.quick-settings.quick-settings-pane.toggles")
+local create_rectanglular_toggle_button = require("widgets.bar.quick-settings.quick-settings-pane.rectangle-toggle")
+
+-- Configurer le widget vide
+local quick_settings_pane_widget = wibox.widget {
+  layout = wibox.layout.flex.vertical,
+  {
+    layout = wibox.layout.fixed.vertical,
+    {
+        layout = wibox.layout.fixed.horizontal, -- Horizontal layout
+        {
+            widget = wibox.container.constraint,
+            strategy = "exact",
+            width = 2/3 * 350, -- 2/3 of the total width (350)
+            {
+                create_rectanglular_toggle_button(nil, beautiful.wifi_0, "Wi-Fi"),
+                widget = wibox.container.margin,
+                margins = {
+                    top = 15,
+                    bottom = 2,
+                    left = 15,
+                    right = 15
+                }
+            }
+        },
+        {
+            widget = wibox.container.constraint,
+            strategy = "exact",
+            width = 1/3 * 350, -- 1/3 of the total width (350)
+            {
+                layout = wibox.layout.fixed.horizontal,
+                {
+                    create_rectanglular_toggle_button(nil, beautiful.wifi_0, "Wi-Fi"),
+                    widget = wibox.container.margin,
+                    margins = {
+                        top = 15,
+                        bottom = 2,
+                        left = 2, -- Half of the remaining space
+                        right = 2 -- Half of the remaining space
+                    }
+                },
+                {
+                    create_rectanglular_toggle_button(nil, beautiful.wifi_0, "Wi-Fi"),
+                    widget = wibox.container.margin,
+                    margins = {
+                        top = 15,
+                        bottom = 2,
+                        left = 2, -- Half of the remaining space
+                        right = 2 -- Half of the remaining space
+                    }
+                }
+            }
+        }
+    },
+    {
+        widget = wibox.container.constraint,
+        strategy = "exact",
+        width = 1/3 * 350, -- 1/3 of the total width (350)
+        {
+            create_rectanglular_toggle_button(nil, beautiful.bluetooth_on, "Bluetooth"),
+            margins = {
+                top = 2,
+                bottom = 10,
+                left = 15,
+                right = 15
+            },
+            widget = wibox.container.margin
+        }
+    },
+  },
+  {
+    layout = wibox.layout.flex.vertical,
+    volume_slider,
+    brightness_slider,
+
+  },
+  {
+    layout = wibox.layout.flex.horizontal,
+
+  },
+  margins = 0, -- Ajouter des marges autour du widget
+}
+
+
 
 
 local rectangle = wibox {
@@ -21,7 +107,11 @@ local rectangle = wibox {
     opacity = 0.85, -- Opacité
 }
 
-
+-- Ajouter le widget au rectangle
+rectangle:setup {
+    quick_settings_pane_widget,
+    layout = wibox.layout.flex.vertical,
+}
 
 -- Position initiale (hors écran à droite)
 rectangle.x = screen_width
@@ -42,7 +132,7 @@ local x_anim = rubato.timed {
 local is_open = false
 
 -- Fonction pour basculer l'affichage avec animation
-local function toggle_rectangle()
+function quick_settings_pane_widget:toggle()
     if is_open then
         -- Si visible, on anime la disparition vers la droite
         x_anim.target = screen_width
@@ -58,21 +148,5 @@ local function toggle_rectangle()
     is_open = not is_open -- Basculer l'état
 end
 
-
-
--- Configurer le widget vide
-local quick_settings_pane_widget = wibox.widget {
-    layout = wibox.container.margin,
-    margins = 0, -- Ajouter des marges autour du widget
-}
-
-
-
--- Ajouter un événement de clic pour afficher/masquer le rectangle
-quick_settings_pane_widget:connect_signal("button::press", function(_, _, _, button)
-    if button == 1 then -- Si clic gauche
-        toggle_rectangle()
-    end
-end)
 
 return quick_settings_pane_widget

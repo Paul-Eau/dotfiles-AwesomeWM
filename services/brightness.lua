@@ -78,6 +78,15 @@ function brightness_service.change_brightness(step, skip_osd)
     update(brightness_service.config.app .. commands.change_brightness(step) .. commands.get_data(), skip_osd)
 end
 
+function brightness_service.get_brightness()
+    awful.spawn.easy_async(brightness_service.config.app .. commands.get_data(), function(stdout)
+        local data = process_command_output(stdout)
+        if data and data.brightness then
+            capi.awesome.emit_signal("brightness::current", data.brightness)
+        end
+    end)
+end
+
 function brightness_service.watch()
     brightness_service.timer = brightness_service.timer or gtimer {
         timeout = brightness_service.config.interval,
@@ -88,5 +97,8 @@ function brightness_service.watch()
     }
     brightness_service.timer:again()
 end
+
+brightness_service.watch()
+brightness_service.get_brightness()
 
 return brightness_service

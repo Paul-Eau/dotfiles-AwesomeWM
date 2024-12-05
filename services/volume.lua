@@ -95,6 +95,12 @@ function volume_service.toggle_mute(skip_osd)
     update(volume_service.config.app .. commands.toggle_mute() .. commands.get_data(), skip_osd)
 end
 
+function volume_service.get_volume()
+    local cmd = "amixer get Master | grep -o '[0-9]*%' | head -1 | tr -d '%'"
+    local volume = tonumber(awful.util.pread(cmd))
+    return volume
+end
+
 function volume_service.watch()
     volume_service.timer = volume_service.timer or gtimer {
         timeout = volume_service.config.interval,

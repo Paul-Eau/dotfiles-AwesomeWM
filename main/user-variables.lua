@@ -9,7 +9,6 @@ local _M = {
   terminal = "kitty",
   file_manager = "thunar",  
   modkey = "Mod4",
-  wallpaper = home .. "/.config/awesome/theme/default/background-dark.png",
 }
 
 return _M

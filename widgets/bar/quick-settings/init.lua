@@ -7,7 +7,6 @@ local naughty = require("naughty") -- Importation de naughty pour les notificati
 local network_widget = require("widgets.bar.quick-settings.network")
 local sound_widget = require("widgets.bar.quick-settings.sound")
 local battery_widget = require("widgets.bar.quick-settings.battery")
-local quick_settings_pane = require("widgets.bar.quick-settings.quick-settings-pane") -- Importation du panneau de réglages rapides
 
 -- Widget contenant uniquement le fond
 local background_widget = wibox.widget {
@@ -90,13 +89,15 @@ quick_settings_widget:connect_signal("mouse::leave", function()
     end
 end)
 
--- Gérer l'événement de clic de la souris
-quick_settings_widget:buttons(
-    gears.table.join(
-        awful.button({}, 1, function()
-            quick_settings_pane:emit_signal("button::press", nil, nil, 1) -- Émettre le signal de clic pour basculer le panneau
-        end)
-    )
-)
+
+
+
+local quick_settings_pane = require("widgets.bar.quick-settings.quick-settings-pane") -- Importer le panneau de réglages rapides
+
+quick_settings_widget:connect_signal("button::press", function(_, _, _, button)
+    if button == 1 then -- Clic gauche
+        quick_settings_pane:toggle() -- Appeler la fonction toggle du rectangle
+    end
+end)
 
 return quick_settings_widget

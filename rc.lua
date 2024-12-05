@@ -1,4 +1,3 @@
-
 RC = {} -- global namespace, on top before require any modules
 RC.vars = require("main.user-variables")
 
@@ -18,6 +17,7 @@ require("globals")
 -- Themes define colours, icons, font and wallpapers.
 beautiful.init(home .. "/.config/awesome/theme/theme.lua")
 beautiful.wallpaper = RC.vars.wallpaper
+
 
 modkey = RC.vars.modkey
 
@@ -69,6 +69,15 @@ require("widgets.bar")
 require("main.signals")
 require("deco.rounded-corners")
 require("deco.windows-borders")
+
+local brightness_slider = require("widgets.bar.quick-settings.quick-settings-pane.brightness-slider")
+local brightness_service = require("services.brightness")
+
+awesome.connect_signal("brightness::current", function(brightness)
+    brightness_slider.value = brightness
+end)
+
+brightness_service.watch()
 
 
 

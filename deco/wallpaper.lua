@@ -1,3 +1,4 @@
+---@diagnostic disable: deprecated, missing-parameter
 -- Standard awesome library
 local gears = require("gears")
 local beautiful = require("beautiful")
@@ -7,7 +8,7 @@ local beautiful = require("beautiful")
 function set_wallpaper(s)
   -- Wallpaper
   if beautiful.wallpaper then
-    local wallpaper = beautiful.wallpaper
+    local wallpaper = beautiful.wallpaper_dark
     -- If wallpaper is a function, call it with the screen
     if type(wallpaper) == "function" then
       wallpaper = wallpaper(s)

@@ -5,7 +5,7 @@ local wibox = require("wibox")
 local beautiful = require("beautiful")
 
 -- Charger le rectangle
-local home_pane = require("widgets.bar.home-pane.init")
+local home_pane = require("widgets.bar.home-button.home-pane")
 
 -- Créer un bouton
 local home_button = wibox.widget {
