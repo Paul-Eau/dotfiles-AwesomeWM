@@ -70,14 +70,7 @@ require("main.signals")
 require("deco.rounded-corners")
 require("deco.windows-borders")
 
-local brightness_slider = require("widgets.bar.quick-settings.quick-settings-pane.brightness-slider")
-local brightness_service = require("services.brightness")
-
-awesome.connect_signal("brightness::current", function(brightness)
-    brightness_slider.value = brightness
-end)
-
-brightness_service.watch()
+--    require("widgets.launcher")
 
 
 

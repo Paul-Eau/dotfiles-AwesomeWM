@@ -2,9 +2,8 @@ local wibox = require("wibox")
 local gears = require("gears")
 local beautiful = require("beautiful")
 
-local function create_rectanglular_toggle_button(action, icon, left_text)
+local function create_rectanglular_toggle_button(action, icon, left_text, right_icon, margins)
   -- Debug print to verify the icon path
-  print("Icon path: " .. tostring(icon))
 
   local button = wibox.widget {
     {
@@ -16,12 +15,12 @@ local function create_rectanglular_toggle_button(action, icon, left_text)
             resize = true,
             halign = "center",
             valign = "center",
-            forced_height = 32,  -- Set the height of the icon
-            forced_width = 32,   -- Set the width of the icon
+            forced_height = 24,  -- Set the height of the icon
+            forced_width = 24,   -- Set the width of the icon
             widget = wibox.widget.imagebox,
           },
-          left = 16,  -- Add left margin
-          right = 16, -- Add right margin
+          left = margins,  -- Add left margin
+          right = margins, -- Add right margin
           widget = wibox.container.margin,
         },
         {
@@ -32,20 +31,20 @@ local function create_rectanglular_toggle_button(action, icon, left_text)
         {
           {
             id = "right_icon",
-            image = gears.color.recolor_image(beautiful.chevron_right, beautiful.fg_normal),  -- Use beautiful.chevron_right as an image
+            image = gears.color.recolor_image(right_icon, beautiful.fg_normal),  -- Use beautiful.chevron_right as an image
             resize = true,
             halign = "center",
             valign = "center",
-            forced_height = 32,  -- Set the height of the icon
-            forced_width = 32,   -- Set the width of the icon
+            --forced_height = 32,  -- Set the height of the icon
+            --forced_width = 32,   -- Set the width of the icon
             widget = wibox.widget.imagebox,
           },
-          right = 8,  -- Add right margin
+          right = 4,  -- Add right margin
           widget = wibox.container.margin,
         },
         layout = wibox.layout.align.horizontal,
       },
-      margins = 4,  -- Adjust margins to decrease the size
+      margins = 8,  -- Adjust margins to decrease the size
       widget = wibox.container.margin,
       forced_height = 50,  -- Augmenter la hauteur des boutons
     },

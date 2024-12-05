@@ -3,7 +3,7 @@ local beautiful = require("beautiful")
 local gears = require("gears")
 local brightness_service = require("services.brightness")
 
-local brightness_slider = wibox.widget {
+local slider_setup = wibox.widget {
   bar_shape           = gears.shape.rounded_bar,
   bar_height          = 8,
   bar_color           = beautiful.bg_focus,
@@ -20,20 +20,22 @@ local brightness_slider = wibox.widget {
   direction           = 'east', -- Invert the direction of the slider
 }
 
-local brightness_slider_container = wibox.widget {
-  brightness_slider,
-  left = 30,  -- Set left margin
-  right = 30, -- Set right margin
+local slider = wibox.widget {
+  slider_setup,
+  left = 0,  -- Set left margin
+  right = 0, -- Set right margin
   widget = wibox.container.margin,
 }
 
+
+
 local current_brightness = brightness_service.get_brightness()
 if current_brightness then
-  brightness_slider.value = current_brightness
+  slider_setup.value = current_brightness
 end
 
-brightness_slider:connect_signal("property::value", function(_, value)
+slider_setup:connect_signal("property::value", function(_, value)
   brightness_service.set_brightness(value)
 end)
 
-return brightness_slider_container
+return slider

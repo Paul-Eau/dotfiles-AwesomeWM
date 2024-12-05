@@ -10,89 +10,204 @@ local screen_width = screen.primary.geometry.width
 local border_size = 10 -- Taille des bords en pixels
 
 local volume_slider = require("widgets.bar.quick-settings.quick-settings-pane.volume-slider")
-local brightness_slider = require("widgets.bar.quick-settings.quick-settings-pane.brightness-slider")
-local create_toggle_button = require("widgets.bar.quick-settings.quick-settings-pane.toggles")
 local create_rectanglular_toggle_button = require("widgets.bar.quick-settings.quick-settings-pane.rectangle-toggle")
 
 -- Configurer le widget vide
 local quick_settings_pane_widget = wibox.widget {
-  layout = wibox.layout.flex.vertical,
-  {
-    layout = wibox.layout.fixed.vertical,
+    layout = wibox.layout.flex.vertical,
     {
-        layout = wibox.layout.fixed.horizontal, -- Horizontal layout
+        widget = wibox.container.background,
+        bg = beautiful.bg_normal,
         {
-            widget = wibox.container.constraint,
-            strategy = "exact",
-            width = 2/3 * 350, -- 2/3 of the total width (350)
+            widget = wibox.container.margin,
+            margins = { top = 12, bottom = 10, left = 10, right = 10 },
             {
-                create_rectanglular_toggle_button(nil, beautiful.wifi_0, "Wi-Fi"),
-                widget = wibox.container.margin,
-                margins = {
-                    top = 15,
-                    bottom = 2,
-                    left = 15,
-                    right = 15
-                }
-            }
-        },
-        {
-            widget = wibox.container.constraint,
-            strategy = "exact",
-            width = 1/3 * 350, -- 1/3 of the total width (350)
-            {
-                layout = wibox.layout.fixed.horizontal,
+                layout = wibox.layout.fixed.vertical,
                 {
-                    create_rectanglular_toggle_button(nil, beautiful.wifi_0, "Wi-Fi"),
-                    widget = wibox.container.margin,
-                    margins = {
-                        top = 15,
-                        bottom = 2,
-                        left = 2, -- Half of the remaining space
-                        right = 2 -- Half of the remaining space
+                    id = "first_row",
+                    layout = wibox.layout.ratio.horizontal,
+                    {
+                        widget = wibox.container.margin,
+                        margins = { top = 4, bottom = 4, left = 4, right = 4 },
+                        create_rectanglular_toggle_button("", beautiful.wifi_0, "Wi-Fi", beautiful.chevron_right, 16)
+                    },
+                    {
+                        widget = wibox.container.margin,
+                        margins = { top = 4, bottom = 4, left = 4, right = 4 },
+                        create_rectanglular_toggle_button("", beautiful.wifi_0, "", "", 4)
+                    },
+                    {
+                        widget = wibox.container.margin,
+                        margins = { top = 4, bottom = 4, left = 4, right = 4 },
+                        create_rectanglular_toggle_button("", beautiful.wifi_0, "", "", 4)
                     }
                 },
                 {
-                    create_rectanglular_toggle_button(nil, beautiful.wifi_0, "Wi-Fi"),
-                    widget = wibox.container.margin,
-                    margins = {
-                        top = 15,
-                        bottom = 2,
-                        left = 2, -- Half of the remaining space
-                        right = 2 -- Half of the remaining space
+                    id = "second_row",
+                    layout = wibox.layout.ratio.horizontal,
+                    {
+                        widget = wibox.container.margin,
+                        margins = { top = 4, bottom = 4, left = 4, right = 4 },
+                        create_rectanglular_toggle_button("", beautiful.bluetooth_on, "BlueTooth", beautiful.chevron_right, 16)
+                    },
+                    {
+                        widget = wibox.container.margin,
+                        margins = { top = 4, bottom = 4, left = 4, right = 4 },
+                        create_rectanglular_toggle_button("", beautiful.wifi_0, "", "", 4)
+                    },
+                    {
+                        widget = wibox.container.margin,
+                        margins = { top = 4, bottom = 4, left = 4, right = 4 },
+                        create_rectanglular_toggle_button("", beautiful.wifi_0, "", "", 4)
                     }
                 }
             }
+            
         }
     },
+
+
     {
-        widget = wibox.container.constraint,
-        strategy = "exact",
-        width = 1/3 * 350, -- 1/3 of the total width (350)
+        widget = wibox.container.background,
+        bg = beautiful.bg_normal,
         {
-            create_rectanglular_toggle_button(nil, beautiful.bluetooth_on, "Bluetooth"),
-            margins = {
-                top = 2,
-                bottom = 10,
-                left = 15,
-                right = 15
-            },
-            widget = wibox.container.margin
+            widget = wibox.container.margin,
+            margins = 10,
+            {
+                layout = wibox.layout.fixed.vertical,
+                volume_slider,
+            }
         }
     },
-  },
-  {
-    layout = wibox.layout.flex.vertical,
-    volume_slider,
-    brightness_slider,
 
-  },
-  {
-    layout = wibox.layout.flex.horizontal,
-
-  },
-  margins = 0, -- Ajouter des marges autour du widget
+    {
+        widget = wibox.container.background,
+        bg = beautiful.bg_normal,
+        {
+            widget = wibox.container.margin,
+            margins = 10,
+            {
+                widget = wibox.widget.textbox,
+                text = "Ut laboris nisi ut aliquip ex ea commodo consequat.",
+            }
+        }
+    }
 }
+
+-- Adjust the ratios for the text widgets
+quick_settings_pane_widget:get_children_by_id("first_row")[1]:adjust_ratio(2, 0.66, 0.17, 0.17)
+quick_settings_pane_widget:get_children_by_id("second_row")[1]:adjust_ratio(2, 0.66, 0.17, 0.17)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--   {
+--     layout = wibox.layout.fixed.vertical,
+--     {
+--         layout = wibox.layout.fixed.horizontal, -- Horizontal layout
+--         {
+--             widget = wibox.container.constraint,
+--             strategy = "exact",
+--             width = 2/3 * 350, -- 2/3 of the total width (350)
+--             {
+--                 create_rectanglular_toggle_button(nil, beautiful.wifi_0, "Wi-Fi"),
+--                 widget = wibox.container.margin,
+--                 margins = {
+--                     top = 15,
+--                     bottom = 2,
+--                     left = 15,
+--                     right = 15
+--                 }
+--             }
+--         },
+--         {
+--             widget = wibox.container.constraint,
+--             strategy = "exact",
+--             width = 1/3 * 350, -- 1/3 of the total width (350)
+--             {
+--                 layout = wibox.layout.fixed.horizontal,
+--                 {
+--                     create_rectanglular_toggle_button(nil, beautiful.wifi_0, "Wi-Fi"),
+--                     widget = wibox.container.margin,
+--                     margins = {
+--                         top = 15,
+--                         bottom = 2,
+--                         left = 2, -- Half of the remaining space
+--                         right = 2 -- Half of the remaining space
+--                     }
+--                 },
+--                 {
+--                     create_rectanglular_toggle_button(nil, beautiful.wifi_0, "Wi-Fi"),
+--                     widget = wibox.container.margin,
+--                     margins = {
+--                         top = 15,
+--                         bottom = 2,
+--                         left = 2, -- Half of the remaining space
+--                         right = 2 -- Half of the remaining space
+--                     }
+--                 }
+--             }
+--         }
+--     },
+--     {
+--         widget = wibox.container.constraint,
+--         strategy = "exact",
+--         width = 1/3 * 350, -- 1/3 of the total width (350)
+--         {
+--             create_rectanglular_toggle_button(nil, beautiful.bluetooth_on, "Bluetooth"),
+--             margins = {
+--                 top = 2,
+--                 bottom = 10,
+--                 left = 15,
+--                 right = 15
+--             },
+--             widget = wibox.container.margin
+--         }
+--     },
+--   },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-- {
+--     layout = wibox.layout.flex.vertical,
+--     volume_slider,
+--     brightness_slider,
+--   },
+
+
+
+
 
 
 
