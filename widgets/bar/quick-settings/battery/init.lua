@@ -1,11 +1,7 @@
 local awful = require("awful")
-local naughty = require("naughty")
 local gears = require("gears")
 local wibox = require("wibox")
 local beautiful = require("beautiful")
-
-local battery_service = require("services.battery")
-
 
 
 -- Fonction pour choisir l'icône en fonction du niveau de batterie et de l'état de charge
@@ -57,16 +53,7 @@ local function get_battery_icon(battery_level, charging)
     end
 end
 
--- Fonction pour choisir la couleur en fonction du niveau de batterie et de l'état de charge
-local function get_battery_color(battery_level, charging)
-    if charging then
-        return beautiful.fg_normal
-    elseif battery_level < 20 then
-        return beautiful.fg_urgent
-    else
-        return beautiful.fg_normal
-    end
-end
+
 
 -- Créer le widget batterie
 local battery_widget = wibox.widget {
@@ -81,7 +68,7 @@ local battery_widget = wibox.widget {
                     id = "icon",
                     halign = "center",
                     valign = "center",
-                    image = beautiful.battery_4, -- Icône par défaut
+                    image = beautiful.placeholder, -- Icône par défaut
                     resize = true,
                     forced_width = 32, -- Réduire la largeur de l'icône
                     forced_height = 32, -- Réduire la hauteur de l'icône
@@ -102,21 +89,14 @@ local battery_tooltip = awful.tooltip {
 }
 
 -- Met à jour le widget batterie et le tooltip
-local function update_battery_widget()
-    battery_service.get_battery_data()
-    local data = battery_service.data
-
+local function update_battery_widget(data)
     if data then
-        local average = data.bat_level
-        local charging = data.adapter_connected
-
-        if average then
-            local icon_path = get_battery_icon(average, charging)
-            local icon_color = get_battery_color(average, charging)
+        if data.bat_level then
+            local icon = get_battery_icon(data.bat_level, data.is_adapter_connected)
             local imagebox = battery_widget:get_children_by_id("icon")[1]
 
             if imagebox then
-                local new_image = gears.color.recolor_image(icon_path, icon_color)
+                local new_image = gears.color.recolor_image(icon, beautiful.fg_normal)
                 if new_image ~= imagebox.image then
                     imagebox.image = nil
                     imagebox.image = new_image
@@ -125,24 +105,17 @@ local function update_battery_widget()
 
             battery_tooltip.text = string.format(
                 "Battery remaining: %.0f%% %s",
-                average,
-                charging and "(charging)" or "(not charging)"
+                data.bat_level,
+                data.is_adapter_connected and "(charging)" or "(not charging)"
             )
         else
             battery_tooltip.text = "Unable to calculate battery level."
         end
-    else
-        battery_tooltip.text = "Unable to retrieve battery state."
     end
 end
 
-gears.timer {
-    timeout = 1,
-    autostart = true,
-    callback = update_battery_widget,
-}
+-- Connect to the battery::update signal
+awesome.connect_signal("battery::update", update_battery_widget)
 
-update_battery_widget()
-print("Battery widget createdTTTT")
 
 return battery_widget

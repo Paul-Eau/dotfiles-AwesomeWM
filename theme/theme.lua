@@ -193,6 +193,9 @@ theme.wifi_icon = themes_path.."bar/wifi/wifi-3.svg"
 theme.bluetooth_icon = themes_path.."bar/bluetooth/wifi-on.svg"
 
 
+theme.placeholder = themes_path.."misc/placeholder.svg"
+
+
 
 
 -- Generate Awesome icon:

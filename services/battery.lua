@@ -91,7 +91,7 @@ local function update_batteries_data(command, skip_osd)
             battery_service.data[k] = v
         end
         battery_service.data.skip_osd = skip_osd
-        capi.awesome.emit_signal("battery::update", battery_service.data)
+        awesome.emit_signal("battery::update", battery_service.data)
     end)
 end
 
@@ -105,7 +105,7 @@ local function update_adapater_connected(command, skip_osd)
             battery_service.data[k] = v
         end
         battery_service.data.skip_osd = skip_osd
-        capi.awesome.emit_signal("battery::update", battery_service.data)
+        awesome.emit_signal("battery::update", battery_service.data)
     end)
 end
 
