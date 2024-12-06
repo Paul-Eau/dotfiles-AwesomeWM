@@ -24,7 +24,7 @@ function commands.get_batteries_data()
   return " -b"
 end
 
--- Command to get volume and mute status
+-- Command to get adapter connection status
 function commands.get_adapter_connected()
   return " -a"
 end
@@ -33,13 +33,10 @@ end
 -- A mettre en commande bash :  " -a | grep -q \"on-line\" && echo 1 || echo 0"
 local function parse_raw_adapter_connected_data(raw_data)
   local adapter_connected = 0
-
-  for line in string.gmatch(raw_data, "([^\n]*)\n?") do
-    if line:match("on-line") then
-      adapter_connected = 1
-    else
-      adapter_connected = 0
-    end
+  if raw_data:match("on%-line") then
+    adapter_connected = 1
+  elseif raw_data:match("off%-line") then
+    adapter_connected = 0
   end
 
   return {
@@ -61,9 +58,9 @@ local function parse_raw_batteries_data(raw_data)
           time_until_charged = line:match("until charged") and line:match("(%d+:%d+:%d+)") or 0
       end
 
-      -- Parse Battery 1 percentage
-      if line:match("^Battery 1:") then
-          battery2_percentage = tonumber(line:match("Battery 1: [%a%s,]+(%d+)%%"))
+      -- Parse Battery 2 percentage
+      if line:match("^Battery 2:") then
+          battery2_percentage = tonumber(line:match("Battery 2: [%a%s,]+(%d+)%%"))
       end
 
   end
@@ -119,6 +116,7 @@ local function print_battery_data(data)
     for k, v in pairs(data) do
         print(k .. ": " .. tostring(v))
     end
+    print("----------------------")
 end
 
 
@@ -141,13 +139,14 @@ function battery_service.watch()
         callback = function()
             update_batteries_data(battery_service.config.app .. commands.get_batteries_data(), true)
             update_adapater_connected(battery_service.config.app .. commands.get_adapter_connected(), true)
-            --print_battery_data(battery_service.data or {})
+            print_battery_data(battery_service.data or {})
         end,
     }
     battery_service.timer:again()
 end
 
 
+-- start battery service
 battery_service.watch()
 
 -- Return the volume service
