@@ -65,13 +65,19 @@ local function update(command, skip_osd)
     end)
 end
 
+
+
+
+
 function brightness_service.set_brightness(brightness, skip_osd)
     update(brightness_service.config.app .. commands.set_brightness(brightness) .. commands.get_data(), skip_osd)
 end
 
+
 function brightness_service.change_brightness(step, skip_osd)
     update(brightness_service.config.app .. commands.change_brightness(step) .. commands.get_data(), skip_osd)
 end
+
 
 function brightness_service.get_brightness()
     awful.spawn.easy_async(brightness_service.config.app .. commands.get_data(), function(stdout)
@@ -81,6 +87,10 @@ function brightness_service.get_brightness()
         end
     end)
 end
+
+
+
+
 
 function brightness_service.watch()
     brightness_service.timer = brightness_service.timer or gtimer {
@@ -93,21 +103,8 @@ function brightness_service.watch()
     brightness_service.timer:again()
 end
 
-function brightness_service.brightness_on_battery()
-    brightness_service.timer = brightness_service.timer or gtimer {
-        timeout = 4,
-        call_now = true,
-        callback = function()
-            brightness_service.set_brightness(10, true) -- Set brightness to 10% after 60 seconds of inactivity
-        end,
-    }
-    brightness_service.timer:again()
-end
-
 
 
 brightness_service.watch()
-brightness_service.get_brightness()
-brightness_service.brightness_on_battery() -- Call the function to start monitoring inactivity
 
 return brightness_service

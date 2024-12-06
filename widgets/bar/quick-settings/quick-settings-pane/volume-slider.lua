@@ -27,10 +27,10 @@ local volume_slider_container = wibox.widget {
   widget = wibox.container.margin,
 }
 
-local current_volume = volume_service.get_volume()
-if current_volume then
-  volume_slider.value = current_volume
-end
+--local current_volume = volume_service.get_volume()
+--if current_volume then
+--  volume_slider.value = current_volume
+--end
 
 volume_slider:connect_signal("property::value", function(_, value)
   volume_service.set_volume(value)

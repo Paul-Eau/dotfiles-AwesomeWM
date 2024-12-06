@@ -11,7 +11,7 @@ local function create_rectanglular_toggle_button(action, icon, left_text, right_
         {
           {
             id = "icon",
-            image = gears.color.recolor_image(icon or beautiful.wifi_2, beautiful.fg_normal),  -- Use the icon parameter
+            image = gears.color.recolor_image(icon or beautiful.wifi_0, beautiful.fg_normal),  -- Use the icon parameter
             resize = true,
             halign = "center",
             valign = "center",
@@ -31,7 +31,7 @@ local function create_rectanglular_toggle_button(action, icon, left_text, right_
         {
           {
             id = "right_icon",
-            image = gears.color.recolor_image(right_icon or beautiful.wifi_2, beautiful.fg_normal),  -- Use beautiful.chevron_right as an image
+            image = gears.color.recolor_image(right_icon or beautiful.wifi_0, beautiful.fg_normal),  -- Use beautiful.chevron_right as an image
             resize = true,
             halign = "center",
             valign = "center",
@@ -62,7 +62,7 @@ local function create_rectanglular_toggle_button(action, icon, left_text, right_
   button:connect_signal("button::press", function()
     is_toggled = not is_toggled
     button.bg = is_toggled and "#554043" or "#234043"
-    button:get_children_by_id("icon")[1].image = gears.color.recolor_image(icon, is_toggled and "#ffFF00" or beautiful.fg_normal)  -- Change icon color on toggle
+    button:get_children_by_id("icon")[1].image = gears.color.recolor_image(icon or beautiful.wifi_0, is_toggled and "#ffFF00" or beautiful.fg_normal)  -- Change icon color on toggle
     if action then
       action(is_toggled)
     end

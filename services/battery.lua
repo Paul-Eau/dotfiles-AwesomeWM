@@ -148,6 +148,7 @@ function battery_service.watch()
 end
 
 
+battery_service.watch()
 
 -- Return the volume service
 return battery_service

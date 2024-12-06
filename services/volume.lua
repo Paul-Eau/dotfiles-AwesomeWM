@@ -107,11 +107,11 @@ function volume_service.toggle_mute(skip_osd)
 end
 
 -- Get the current volume using amixer
-function volume_service.get_volume()
-    local cmd = "amixer get Master | grep -o '[0-9]*%' | head -1 | tr -d '%'"
-    local volume = tonumber(awful.util.pread(cmd))
-    return volume
-end
+-- function volume_service.get_volume()
+--     local cmd = "amixer get Master | grep -o '[0-9]*%' | head -1 | tr -d '%'"
+--     local volume = tonumber(awful.util.pread(cmd))
+--     return volume
+-- end
 
 -- Start watching the volume status at regular intervals
 function volume_service.watch()
