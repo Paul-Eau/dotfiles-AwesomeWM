@@ -70,6 +70,7 @@ require("main.signals")
 require("deco.rounded-corners")
 require("deco.windows-borders")
 
+require("services.wifi")
 local battery_service = require("services.battery")
 
 

@@ -1,77 +1,82 @@
-local awful = require("awful")
 local wibox = require("wibox")
 local gears = require("gears")
 local beautiful = require("beautiful")
+local awful = require("awful")
+local wifi_service = require("services.wifi")
 
-local function recolor_image(icon, color)
-    return gears.color.recolor_image(icon, color)
+-- Fonction pour choisir l'icône en fonction du signal WiFi
+local function get_wifi_icon(signal)
+    if signal == -1 then
+        return beautiful.wifi_off
+    elseif signal == 0 then
+        return beautiful.wifi_0
+    elseif signal > 0 and signal <= 45 then
+        return beautiful.wifi_1
+    elseif signal > 45 and signal <= 66 then
+        return beautiful.wifi_2
+    elseif signal > 66 then
+        return beautiful.wifi_2
+    end
 end
 
--- Fonction pour récupérer la puissance du WiFi
-local function get_wifi_signal(callback)
-    awful.spawn.easy_async_with_shell(
-        "nmcli -t -f ACTIVE,SIGNAL dev wifi | grep '^yes' | cut -d':' -f2",
-        function(stdout, stderr, reason, exit_code)
-            local signal = tonumber(stdout) or -1 -- Si aucun signal, retourne -1
-            callback(signal)
-        end
-    )
-end
-
--- Widget WiFi
+-- Créer le widget WiFi
 local wifi_widget = wibox.widget {
     {
-        id = "icon",
-        widget = wibox.widget.imagebox,
-        resize = true,
-        valign = "center",  -- Centré dans son conteneur
-        halign = "center",  -- Centré dans son conteneur
-        forced_height = 32, -- Set the desired height
-        forced_width = 32   -- Set the desired width
+        widget = wibox.container.margin,
+        margins = 2, -- Ajouter des marges pour centrer l'icône
+        {
+            widget = wibox.container.place,
+            {
+                widget = wibox.widget.imagebox,
+                id = "icon",
+                halign = "center",
+                valign = "center",
+                image = beautiful.placeholder, -- Icône par défaut
+                resize = true,
+                forced_width = 32, -- Réduire la largeur de l'icône
+                forced_height = 32, -- Réduire la hauteur de l'icône
+            },
+        },
     },
-    layout = wibox.container.margin,
-    margins = 5, -- Adjust margins to center the icon
-    set_image = function(self, image)
-        self:get_children_by_id("icon")[1].image = image
-    end
+    layout = wibox.layout.fixed.vertical,
 }
 
--- local wifi_tooltip = awful.tooltip {
---     objects = { wifi_widget },
---     mode = "outside",
---     align = "right",
---     preferred_positions = { "right", "left", "top", "bottom" }
--- }
+-- Créer un tooltip pour afficher l'état du WiFi
+local wifi_tooltip = awful.tooltip {
+    objects = { wifi_widget },
+    text = "Chargement des données...",
+    timeout = 1,
+    align = "left",
+    mode = "outside",
+    preferred_positions = { "bottom" }
+}
 
--- Mise à jour de l'icône en fonction du signal
-local function update_wifi_widget()
-    get_wifi_signal(function(signal)
-        local icon
-        if signal == -1 then
-            icon = beautiful.wifi_fail
-        elseif signal == 0 then
-            icon = beautiful.wifi_0
-        elseif signal > 0 and signal <= 45 then
-            icon = beautiful.wifi_1
-        elseif signal > 45 and signal <= 66 then
-            icon = beautiful.wifi_2
-        elseif signal > 66 then
-            icon = beautiful.wifi_2
+-- Met à jour le widget WiFi et le tooltip
+local function update_wifi_widget(data)
+    if data then
+        local signal = data.signal_strenght
+        local icon = get_wifi_icon(signal)
+        local imagebox = wifi_widget:get_children_by_id("icon")[1]
+
+        if imagebox then
+            local new_image = gears.color.recolor_image(icon, beautiful.fg_normal)
+            if new_image ~= imagebox.image then
+                imagebox.image = nil
+                imagebox.image = new_image
+            end
         end
-        wifi_widget:set_image(recolor_image(icon, beautiful.fg_normal))
-        --wifi_tooltip.text = "Signal: " .. (signal == -1 and "No signal" or signal .. "%")
-    end)
+
+        wifi_tooltip.text = string.format("Signal strength: %d%%", signal)
+    else
+        wifi_tooltip.text = "Unable to retrieve WiFi signal strength."
+    end
 end
 
--- Actualisation périodique du widget
-gears.timer {
-    timeout = 10, -- Actualise toutes les 10 secondes
-    autostart = true,
-    callback = update_wifi_widget
-}
+-- Connect to the wifi service signal
+awesome.connect_signal("wifi::update", update_wifi_widget)
 
 -- Première mise à jour immédiate
-update_wifi_widget()
+wifi_service.get_signal_strenght()
 
 -- Exporter le widget pour être utilisé ailleurs
 return wifi_widget

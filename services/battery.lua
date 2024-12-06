@@ -139,7 +139,7 @@ function battery_service.watch()
         callback = function()
             update_batteries_data(battery_service.config.app .. commands.get_batteries_data(), true)
             update_adapater_connected(battery_service.config.app .. commands.get_adapter_connected(), true)
-            print_battery_data(battery_service.data or {})
+            --print_battery_data(battery_service.data or {})
         end,
     }
     battery_service.timer:again()
