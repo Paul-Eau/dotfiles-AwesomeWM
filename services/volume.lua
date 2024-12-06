@@ -125,5 +125,9 @@ function volume_service.watch()
     volume_service.timer:again()
 end
 
+
+-- start volume service
+volume_service.watch()
+
 -- Return the volume service
 return volume_service
