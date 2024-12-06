@@ -70,6 +70,10 @@ require("main.signals")
 require("deco.rounded-corners")
 require("deco.windows-borders")
 
+local battery_service = require("services.battery")
+
+battery_service.watch()
+
 --    require("widgets.launcher")
 
 

@@ -1,4 +1,3 @@
-
 RC = {} -- global namespace, on top before require any modules
 RC.vars = require("main.user-variables")
 home = RC.vars.home
@@ -127,17 +126,40 @@ theme.layout_cornerne = themes_path.."layouts/cornernew.png"
 theme.layout_cornersw = themes_path.."layouts/cornersww.png"
 theme.layout_cornerse = themes_path.."layouts/cornersew.png"
 
+
+-- BATTERY
 theme.battery_0 = themes_path.."bar/battery/battery-0.svg"
 theme.battery_1 = themes_path.."bar/battery/battery-1.svg"
 theme.battery_2 = themes_path.."bar/battery/battery-2.svg"
 theme.battery_3 = themes_path.."bar/battery/battery-3.svg"
 theme.battery_4 = themes_path.."bar/battery/battery-4.svg"
+theme.battery_5 = themes_path.."bar/battery/battery-5.svg"
+theme.battery_6 = themes_path.."bar/battery/battery-6.svg"
+theme.battery_7 = themes_path.."bar/battery/battery-7.svg"
+theme.battery_8 = themes_path.."bar/battery/battery-8.svg"
+theme.battery_9 = themes_path.."bar/battery/battery-9.svg"
+theme.battery_10 = themes_path.."bar/battery/battery-10.svg"
 
-theme.battery_charging_ = themes_path.."bar/battery/battery-charging-10.svg"
+theme.battery_charging_0 = themes_path.."bar/battery/battery-charging-0.svg"
+theme.battery_charging_1 = themes_path.."bar/battery/battery-charging-1.svg"
+theme.battery_charging_2 = themes_path.."bar/battery/battery-charging-2.svg"
+theme.battery_charging_3 = themes_path.."bar/battery/battery-charging-3.svg"
+theme.battery_charging_4 = themes_path.."bar/battery/battery-charging-4.svg"
+theme.battery_charging_5 = themes_path.."bar/battery/battery-charging-5.svg"
+theme.battery_charging_6 = themes_path.."bar/battery/battery-charging-6.svg"
+theme.battery_charging_7 = themes_path.."bar/battery/battery-charging-7.svg"
+theme.battery_charging_8 = themes_path.."bar/battery/battery-charging-8.svg"
+theme.battery_charging_9 = themes_path.."bar/battery/battery-charging-9.svg"
+theme.battery_charging_10 = themes_path.."bar/battery/battery-charging-10.svg"
 
+
+theme.headset_on = themes_path.."bar/sound/headset-on.svg"
+theme.micro_on = themes_path.."bar/sound/micro-on.svg"
 theme.sound_0 = themes_path.."bar/sound/speaker-0.svg"
 theme.sound_1 = themes_path.."bar/sound/speaker-1.svg"
 theme.sound_2 = themes_path.."bar/sound/speaker-2.svg"
+theme.sound_3 = themes_path.."bar/sound/speaker-3.svg"
+theme.sound_4 = themes_path.."bar/sound/speaker-4.svg"
 theme.sound_mute = themes_path.."bar/sound/speaker-mute.svg"
 
 
@@ -146,6 +168,11 @@ theme.wifi_1 = themes_path.."bar/wifi/wifi-1.svg"
 theme.wifi_2 = themes_path.."bar/wifi/wifi-2.svg"
 theme.wifi_fail = themes_path.."bar/wifi/wifi-fail.svg"
 theme.wifi_off = themes_path.."bar/wifi/wifi-off.svg"
+
+
+theme.ethernet_off = themes_path.."bar/ethernet/ethernet-off.svg"
+theme.ethernet_on = themes_path.."bar/ethernet/ethernet-on.svg"
+
 
 theme.bluetooth_off = themes_path.."bar/bluetooth/bluetooth-off.svg"
 theme.bluetooth_on = themes_path.."bar/bluetooth/bluetooth-on.svg"

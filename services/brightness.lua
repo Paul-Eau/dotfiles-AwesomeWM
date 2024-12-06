@@ -17,19 +17,14 @@ local brightness_service = {
 
 local commands = {}
 
----@return string
 function commands.get_data()
     return " get"
 end
 
----@param brightness number
----@return string
 function commands.set_brightness(brightness)
     return " set " .. string.format("%.0f", brightness) .. "%"
 end
 
----@param step number
----@return string
 function commands.change_brightness(step)
     step = step or 1
     return " set " .. (step > 0 and "+" or "") .. string.format("%.0f", step) .. "%"
@@ -98,7 +93,21 @@ function brightness_service.watch()
     brightness_service.timer:again()
 end
 
+function brightness_service.brightness_on_battery()
+    brightness_service.timer = brightness_service.timer or gtimer {
+        timeout = 4,
+        call_now = true,
+        callback = function()
+            brightness_service.set_brightness(10, true) -- Set brightness to 10% after 60 seconds of inactivity
+        end,
+    }
+    brightness_service.timer:again()
+end
+
+
+
 brightness_service.watch()
 brightness_service.get_brightness()
+brightness_service.brightness_on_battery() -- Call the function to start monitoring inactivity
 
 return brightness_service

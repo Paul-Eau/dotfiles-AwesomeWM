@@ -11,7 +11,7 @@ local function create_rectanglular_toggle_button(action, icon, left_text, right_
         {
           {
             id = "icon",
-            image = gears.color.recolor_image(icon, beautiful.fg_normal),  -- Use the icon parameter
+            image = gears.color.recolor_image(icon or beautiful.wifi_2, beautiful.fg_normal),  -- Use the icon parameter
             resize = true,
             halign = "center",
             valign = "center",
@@ -31,7 +31,7 @@ local function create_rectanglular_toggle_button(action, icon, left_text, right_
         {
           {
             id = "right_icon",
-            image = gears.color.recolor_image(right_icon, beautiful.fg_normal),  -- Use beautiful.chevron_right as an image
+            image = gears.color.recolor_image(right_icon or beautiful.wifi_2, beautiful.fg_normal),  -- Use beautiful.chevron_right as an image
             resize = true,
             halign = "center",
             valign = "center",

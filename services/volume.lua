@@ -1,12 +1,11 @@
--- DEPENDENCIES: pulsemixer
-
+-- Import necessary modules
 local capi = Capi
 local tonumber = tonumber
 local string = string
 local gtimer = require("gears.timer")
 local awful = require("awful")
 
-
+-- Define the volume service with its configuration and data
 local volume_service = {
     config = {
         interval = 3,
@@ -17,31 +16,38 @@ local volume_service = {
     timer = nil,
 }
 
+-- Define commands for interacting with the volume control application
 local commands = {}
 
----@return string
+-- Command to get volume and mute status
 function commands.get_data()
     return " --get-volume --get-mute"
 end
 
----@param volume number
----@return string
+-- Command to set the volume
 function commands.set_volume(volume)
     return " --set-volume " .. string.format("%.0f", volume) .. " --max-volume " .. volume_service.config.limit
 end
 
----@param step number
----@return string
+-- Command to change the volume by a step
 function commands.change_volume(step)
     step = step or 1
     return " --change-volume " .. (step > 0 and "+" or "") .. string.format("%.0f", step) .. " --max-volume " .. volume_service.config.limit
 end
 
----@return string
+-- Command to toggle mute status
 function commands.toggle_mute()
     return " --toggle-mute"
 end
 
+-- Command to toggle mic status
+function commands.toggle_mic()
+    return " --toggle-mute --id $(pulsemixer --list-sources | grep 'Default' | grep -oP 'ID: source-\\K\\d+')"
+end
+
+
+
+-- Parse the raw data output from the volume control application
 local function parse_raw_data(raw_data)
     local volume = nil
     local muted = nil
@@ -67,6 +73,7 @@ local function parse_raw_data(raw_data)
     }
 end
 
+-- Process the command output to extract volume data
 local function process_command_output(stdout, stderr, exitreason, exitcode)
     local data = nil
     if exitreason == "exit" and exitcode == 0 then
@@ -75,6 +82,7 @@ local function process_command_output(stdout, stderr, exitreason, exitcode)
     return data
 end
 
+-- Update the volume data and emit a signal
 local function update(command, skip_osd)
     awful.spawn.easy_async(command, function(...)
         volume_service.data = process_command_output(...) or {}
@@ -83,24 +91,29 @@ local function update(command, skip_osd)
     end)
 end
 
+-- Set the volume to a specific value
 function volume_service.set_volume(volume, skip_osd)
     update(volume_service.config.app .. commands.set_volume(volume) .. commands.get_data(), skip_osd)
 end
 
+-- Change the volume by a step
 function volume_service.change_volume(step, skip_osd)
     update(volume_service.config.app .. commands.change_volume(step) .. commands.get_data(), skip_osd)
 end
 
+-- Toggle the mute status
 function volume_service.toggle_mute(skip_osd)
     update(volume_service.config.app .. commands.toggle_mute() .. commands.get_data(), skip_osd)
 end
 
+-- Get the current volume using amixer
 function volume_service.get_volume()
     local cmd = "amixer get Master | grep -o '[0-9]*%' | head -1 | tr -d '%'"
     local volume = tonumber(awful.util.pread(cmd))
     return volume
 end
 
+-- Start watching the volume status at regular intervals
 function volume_service.watch()
     volume_service.timer = volume_service.timer or gtimer {
         timeout = volume_service.config.interval,
@@ -112,4 +125,5 @@ function volume_service.watch()
     volume_service.timer:again()
 end
 
+-- Return the volume service
 return volume_service
