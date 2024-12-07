@@ -105,6 +105,7 @@ theme.titlebar_maximized_button_focus_inactive  = themes_path.."titlebar/maximiz
 theme.titlebar_maximized_button_normal_active = themes_path.."titlebar/maximized_normal_active.png"
 theme.titlebar_maximized_button_focus_active  = themes_path.."titlebar/maximized_focus_active.png"
 
+theme.wallpaper = themes_path.."wallpapers/background-dark.png"
 theme.wallpaper_dark = themes_path.."wallpapers/background-dark.png"
 theme.wallpaper_light = themes_path.."wallpapers/background-light.png"
 
@@ -196,6 +197,21 @@ theme.brightness_icon = themes_path.."misc/brightness.svg"
 
 
 theme.placeholder = themes_path.."misc/placeholder.svg"
+
+
+
+
+
+theme.tag_preview_widget_border_radius = 4        -- Border radius of the widget (With AA)
+theme.tag_preview_client_border_radius = 4        -- Border radius of each client in the widget (With AA)
+theme.tag_preview_client_opacity = 0.85              -- Opacity of each client
+theme.tag_preview_client_bg = theme.bg_normal           -- The bg color of each client
+theme.tag_preview_client_border_color = theme.bg_focus -- The border color of each client
+theme.tag_preview_client_border_width = 2         -- The border width of each client
+theme.tag_preview_widget_bg = theme.bg_normal           -- The bg color of the widget
+theme.tag_preview_widget_border_color = theme.bg_focus -- The border color of the widget
+theme.tag_preview_widget_border_width = 3         -- The border width of the widget
+theme.tag_preview_widget_margin = 10               -- The margin of the widget
 
 
 
