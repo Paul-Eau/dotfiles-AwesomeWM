@@ -192,6 +192,8 @@ theme.tag_dot_empty = themes_path.."bar/tags/tag-dot-empty.svg"
 theme.wifi_icon = themes_path.."bar/wifi/wifi-3.svg"
 theme.bluetooth_icon = themes_path.."bar/bluetooth/wifi-on.svg"
 
+theme.brightness_icon = themes_path.."misc/brightness.svg"
+
 
 theme.placeholder = themes_path.."misc/placeholder.svg"
 

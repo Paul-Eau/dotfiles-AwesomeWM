@@ -1,7 +1,6 @@
 local wibox = require("wibox")
 local beautiful = require("beautiful")
 local gears = require("gears")
-local brightness_service = require("services.brightness")
 
 local slider_setup = wibox.widget {
   bar_shape           = gears.shape.rounded_bar,
@@ -13,29 +12,43 @@ local slider_setup = wibox.widget {
   handle_border_width = 4,
   value               = 0,
   widget              = wibox.widget.slider,
-  forced_width        = 200,  -- Set the width of the slider
+  --forced_width        = 200,  -- Set the width of the slider
   handle_width        = 24,   -- Set the width of the handle
   handle_height       = 24,   -- Set the height of the handle
-  handle_margins      = 2,    -- Set the margins around the handle
+  handle_margins = { -- Set the margins around the handle
+    left = 0,
+    right = 0,
+  },
   direction           = 'east', -- Invert the direction of the slider
 }
 
+local icon = wibox.widget {
+  image  = beautiful.placeholder,  -- Replace with the actual icon path or variable
+  resize = true,
+  valign  = "center",
+  halign  = "center",
+  forced_width = 32,  -- Set the width of the icon
+  forced_height = 32, -- Set the height of the icon
+  widget = wibox.widget.imagebox,
+}
+
 local slider = wibox.widget {
-  slider_setup,
+  {
+    {
+      icon,
+      right = 8,  -- Set right margin for the icon
+      widget = wibox.container.margin,
+    },
+    {
+      slider_setup,
+      right = 8,  -- Set right margin for the slider
+      widget = wibox.container.margin,
+    },
+    layout = wibox.layout.fixed.horizontal,
+  },
   left = 0,  -- Set left margin
   right = 0, -- Set right margin
   widget = wibox.container.margin,
 }
-
-
-
-local current_brightness = brightness_service.get_brightness()
-if current_brightness then
-  slider_setup.value = current_brightness
-end
-
-slider_setup:connect_signal("property::value", function(_, value)
-  brightness_service.set_brightness(value)
-end)
 
 return slider

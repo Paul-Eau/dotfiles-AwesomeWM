@@ -1,9 +1,10 @@
 -- Import necessary modules
-local capi = Capi
 local tonumber = tonumber
 local string = string
 local gtimer = require("gears.timer")
 local awful = require("awful")
+local beautiful = require("beautiful")
+
 
 -- Define the volume service with its configuration and data
 local volume_service = {
@@ -57,7 +58,7 @@ local function parse_raw_data(raw_data)
         if l == 1 then
             -- Just take first channel, ignore other channels
             local volume_text = line:match("^(%d+)")
-            volume = tonumber(volume_text)
+            volume = tonumber(volume_text) or 0 -- Default to 0 if volume is not a number
         elseif l == 2 then
             local muted_text = line:match("^(%d)$")
             muted = muted_text == "1"
@@ -78,6 +79,7 @@ local function process_command_output(stdout, stderr, exitreason, exitcode)
     local data = nil
     if exitreason == "exit" and exitcode == 0 then
         data = parse_raw_data(stdout)
+        data.icon = volume_service.get_volume_icon(data.volume, data.muted)
     end
     return data
 end
@@ -87,7 +89,7 @@ local function update(command, skip_osd)
     awful.spawn.easy_async(command, function(...)
         volume_service.data = process_command_output(...) or {}
         volume_service.data.skip_osd = skip_osd
-        capi.awesome.emit_signal("volume::update", volume_service.data)
+        awesome.emit_signal("volume::update", volume_service.data)
     end)
 end
 
@@ -112,6 +114,21 @@ end
 --     local volume = tonumber(awful.util.pread(cmd))
 --     return volume
 -- end
+
+-- Add the get_volume_icon function to volume_service
+function volume_service.get_volume_icon(volume_level, muted)
+    if muted then
+        return beautiful.sound_mute
+    elseif volume_level <= 20 then
+        return beautiful.sound_0
+    elseif volume_level <= 45 then
+        return beautiful.sound_1
+    elseif volume_level <= 70 then
+        return beautiful.sound_2
+    else
+        return beautiful.sound_3
+    end
+end
 
 -- Start watching the volume status at regular intervals
 function volume_service.watch()

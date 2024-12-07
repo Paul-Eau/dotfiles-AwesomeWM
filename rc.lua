@@ -71,7 +71,16 @@ require("deco.rounded-corners")
 require("deco.windows-borders")
 
 require("services.wifi")
-local battery_service = require("services.battery")
+require("services.battery")
+
+
+
+
+require("widgets.osd.volume")
+require("widgets.osd.brightness")
+
+-- ...existing code...
+
 
 
 --    require("widgets.launcher")

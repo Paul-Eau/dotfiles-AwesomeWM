@@ -175,13 +175,13 @@ function _M.get()
 
     -- Fn-keys
     awful.key({ }, "#121", function () volume_service.toggle_mute() end),   
-    awful.key({ }, "#122", function () volume_service.change_volume(-5) end),
-    awful.key({ }, "#123", function () volume_service.change_volume(5) end),
+    awful.key({ }, "#122", function () volume_service.change_volume(-5, false) end),
+    awful.key({ }, "#123", function () volume_service.change_volume(5, false) end),
     
     awful.key({ }, "#198", function () awful.util.spawn("volume --in-mute") end),
 
-    awful.key({ }, "#232", function () awful.util.spawn("brightness --dec") end),
-    awful.key({ }, "#233", function () awful.util.spawn("brightness --inc") end)
+    awful.key({ }, "#232", function () brightness_service.adjust_brightness("dec", 1.25, false) end),
+    awful.key({ }, "#233", function () brightness_service.adjust_brightness("inc", 1.25, false) end)
 
   )
 

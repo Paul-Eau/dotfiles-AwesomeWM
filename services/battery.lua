@@ -4,6 +4,7 @@ local tonumber = tonumber
 local string = string
 local gtimer = require("gears.timer")
 local awful = require("awful")
+local beautiful = require("beautiful")
 
 -- CONFIG
 local battery_service = {
@@ -59,8 +60,8 @@ local function parse_raw_batteries_data(raw_data)
       end
 
       -- Parse Battery 2 percentage
-      if line:match("^Battery 2:") then
-          battery2_percentage = tonumber(line:match("Battery 2: [%a%s,]+(%d+)%%"))
+      if line:match("^Battery 1:") then
+          battery2_percentage = tonumber(line:match("Battery 1: [%a%s,]+(%d+)%%"))
       end
 
   end
@@ -68,6 +69,10 @@ local function parse_raw_batteries_data(raw_data)
   -- Calculate average battery percentage
   if battery1_percentage and battery2_percentage then
       batteries_percentage = (battery1_percentage + battery2_percentage) / 2
+  end
+
+  if battery1_percentage == 100 then
+    batteries_percentage = 100
   end
 
   return {
@@ -130,6 +135,55 @@ function battery_service.get_adapter_connected()
 end
 
 
+-- Function to choose the icon based on battery level and charging state
+function battery_service.get_battery_icon(battery_level, charging)
+    if charging == 1 then
+        if battery_level >= 90 then
+            return beautiful.battery_charging_10
+        elseif battery_level >= 80 then
+            return beautiful.battery_charging_9
+        elseif battery_level >= 70 then
+            return beautiful.battery_charging_8
+        elseif battery_level >= 60 then
+            return beautiful.battery_charging_7
+        elseif battery_level >= 50 then
+            return beautiful.battery_charging_6
+        elseif battery_level >= 40 then
+            return beautiful.battery_charging_5
+        elseif battery_level >= 30 then
+            return beautiful.battery_charging_4
+        elseif battery_level >= 20 then
+            return beautiful.battery_charging_3
+        elseif battery_level >= 10 then
+            return beautiful.battery_charging_2
+        else
+            return beautiful.battery_charging_1
+        end
+    else
+        if battery_level >= 90 then
+            return beautiful.battery_10
+        elseif battery_level >= 80 then
+            return beautiful.battery_9
+        elseif battery_level >= 70 then
+            return beautiful.battery_8
+        elseif battery_level >= 60 then
+            return beautiful.battery_7
+        elseif battery_level >= 50 then
+            return beautiful.battery_6
+        elseif battery_level >= 40 then
+            return beautiful.battery_5
+        elseif battery_level >= 30 then
+            return beautiful.battery_4
+        elseif battery_level >= 20 then
+            return beautiful.battery_3
+        elseif battery_level >= 10 then
+            return beautiful.battery_2
+        else
+            return beautiful.battery_1
+        end
+    end
+end
+
 
 -- Start watching the volume status at regular intervals
 function battery_service.watch()
@@ -139,7 +193,7 @@ function battery_service.watch()
         callback = function()
             update_batteries_data(battery_service.config.app .. commands.get_batteries_data(), true)
             update_adapater_connected(battery_service.config.app .. commands.get_adapter_connected(), true)
-            --print_battery_data(battery_service.data or {})
+            print_battery_data(battery_service.data or {})
         end,
     }
     battery_service.timer:again()

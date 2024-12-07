@@ -2,58 +2,7 @@ local awful = require("awful")
 local gears = require("gears")
 local wibox = require("wibox")
 local beautiful = require("beautiful")
-
-
--- Fonction pour choisir l'icône en fonction du niveau de batterie et de l'état de charge
-local function get_battery_icon(battery_level, charging)
-    if charging then
-        if battery_level >= 90 then
-            return beautiful.battery_charging_10
-        elseif battery_level >= 80 then
-            return beautiful.battery_charging_9
-        elseif battery_level >= 70 then
-            return beautiful.battery_charging_8
-        elseif battery_level >= 60 then
-            return beautiful.battery_charging_7
-        elseif battery_level >= 50 then
-            return beautiful.battery_charging_6
-        elseif battery_level >= 40 then
-            return beautiful.battery_charging_5
-        elseif battery_level >= 30 then
-            return beautiful.battery_charging_4
-        elseif battery_level >= 20 then
-            return beautiful.battery_charging_3
-        elseif battery_level >= 10 then
-            return beautiful.battery_charging_2
-        else
-            return beautiful.battery_charging_1
-        end
-    else
-        if battery_level >= 90 then
-            return beautiful.battery_10
-        elseif battery_level >= 80 then
-            return beautiful.battery_9
-        elseif battery_level >= 70 then
-            return beautiful.battery_8
-        elseif battery_level >= 60 then
-            return beautiful.battery_7
-        elseif battery_level >= 50 then
-            return beautiful.battery_6
-        elseif battery_level >= 40 then
-            return beautiful.battery_5
-        elseif battery_level >= 30 then
-            return beautiful.battery_4
-        elseif battery_level >= 20 then
-            return beautiful.battery_3
-        elseif battery_level >= 10 then
-            return beautiful.battery_2
-        else
-            return beautiful.battery_1
-        end
-    end
-end
-
-
+local battery_service = require("services.battery")
 
 -- Créer le widget batterie
 local battery_widget = wibox.widget {
@@ -92,7 +41,7 @@ local battery_tooltip = awful.tooltip {
 local function update_battery_widget(data)
     if data then
         if data.bat_level then
-            local icon = get_battery_icon(data.bat_level, data.is_adapter_connected)
+            local icon = battery_service.get_battery_icon(data.bat_level, data.is_adapter_connected)
             local imagebox = battery_widget:get_children_by_id("icon")[1]
 
             if imagebox then
