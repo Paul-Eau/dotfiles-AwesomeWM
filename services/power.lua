@@ -1,0 +1,1 @@
+-- service pour les commandes shutdown restart sleep uptime

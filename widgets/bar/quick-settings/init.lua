@@ -89,6 +89,8 @@ local function hide_background()
     end
 end
 
+
+-- to fix to include in for loop
 quick_settings_widget:connect_signal("mouse::enter", show_background)
 quick_settings_widget:connect_signal("mouse::leave", hide_background)
 

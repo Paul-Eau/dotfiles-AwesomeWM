@@ -141,7 +141,7 @@ rectangle:setup {
 
 -- Position initiale (hors écran à droite)
 rectangle.x = screen_width
-rectangle.y = 420 -- Position verticale avec bord supérieur et wibar
+rectangle.y = 512 -- Position verticale avec bord supérieur et wibar
 
 -- Créer l'animation Rubato pour la position X
 local x_anim = rubato.timed {

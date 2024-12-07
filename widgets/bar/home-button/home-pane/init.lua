@@ -5,6 +5,9 @@ local rubato = require("lib.rubato") -- Charger Rubato
 local awful = require("awful")
 local cairo = require("lgi").cairo
 
+
+local text_widget = require("widgets.bar.home-button.home-pane.test")
+
 -- Obtenez la hauteur et la largeur de l'écran
 local screen_height = screen.primary.geometry.height
 local screen_width = screen.primary.geometry.width
@@ -34,7 +37,7 @@ local home_pane = wibox({
     visible = false,  -- Masqué par défaut
     ontop = true,     -- Toujours au-dessus
     width = 350,      -- Largeur du rectangle
-    height = screen_height - 3 * border_size - wibar_height, -- Hauteur du rectangle avec bords et wibar
+    height = 600, -- Hauteur du rectangle avec bords et wibar
     bg = beautiful.bg_normal,
     shape = gears.shape.rounded_rect,     -- Forme arrondie
     opacity = 1       -- Opacité du rectangle
@@ -45,10 +48,18 @@ home_pane:connect_signal("draw", function(self, cr, width, height)
     apply_blur(cr, width, height)
 end)
 
+-- Charger le widget texte depuis test.lua
+
+-- Ajouter le widget texte au home_pane
+home_pane:setup {
+    text_widget,
+    layout = wibox.layout.align.vertical
+}
+
 -- Position initiale (hors écran à droite)
 home_pane.x = screen_width
-home_pane.y = border_size * 2 + wibar_height  -- Position verticale avec bord supérieur et wibar
-home_pane.height = screen_height - wibar_height -- Hauteur du rectangle avec bords et wibar
+home_pane.y = border_size * 1  -- Position verticale avec bord supérieur et wibar
+home_pane.height = screen_height - 2 * border_size -- Hauteur du rectangle avec bords et wibar
 
 -- Créer l'animation Rubato pour la position X
 local x_anim = rubato.timed({
