@@ -77,20 +77,25 @@ local quick_settings_widget = wibox.widget {
 }
 
 -- Gérer les événements de survol de la souris
-quick_settings_widget:connect_signal("mouse::enter", function()
-    background_widget.visible = true -- Afficher le fond
+local function show_background()
+    background_widget.visible = true -- Assurer que le fond est visible avant l'animation
     fade_animation.target = 1 -- Lancer l'animation de fondu entrant
-end)
+end
 
-quick_settings_widget:connect_signal("mouse::leave", function()
+local function hide_background()
     fade_animation.target = 0 -- Lancer l'animation de fondu sortant
     if fade_animation.target == 0 then
         background_widget.visible = true -- Assurer que le fond reste visible pendant l'animation
     end
-end)
+end
 
+quick_settings_widget:connect_signal("mouse::enter", show_background)
+quick_settings_widget:connect_signal("mouse::leave", hide_background)
 
-
+for _, widget in ipairs({network_widget, sound_widget, battery_widget}) do
+    widget:connect_signal("mouse::enter", show_background)
+    widget:connect_signal("mouse::leave", hide_background)
+end
 
 local quick_settings_pane = require("widgets.bar.quick-settings.quick-settings-pane") -- Importer le panneau de réglages rapides
 
