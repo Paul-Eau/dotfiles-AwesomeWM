@@ -9,6 +9,8 @@ local menubar = require("menubar")
 local volume_service = require("services.volume")
 local brightness_service = require("services.brightness")
 
+local app_launcher = require("widgets/launcher")
+
 -- Resource Configuration
 local modkey = RC.vars.modkey
 local terminal = RC.vars.terminal
@@ -54,6 +56,9 @@ function _M.get()
 
     awful.key({ modkey,           }, "w", function () RC.mainmenu:show() end,
               {description = "show main menu", group = "awesome"}),
+
+    awful.key({ modkey,           }, "space", function () app_launcher:toggle()                end,
+              {description = "Toggle app launcher", group = "misc"}),
 
 
 
@@ -112,10 +117,9 @@ function _M.get()
               {description = "increase the number of columns", group = "layout"}),
     awful.key({ modkey, "Control" }, "l",     function () awful.tag.incncol(-1, nil, true)    end,
               {description = "decrease the number of columns", group = "layout"}),
-    awful.key({ modkey,           }, "space", function () awful.layout.inc( 1)                end,
-              {description = "select next", group = "layout"}),
-    awful.key({ modkey, "Shift"   }, "space", function () awful.layout.inc(-1)                end,
-              {description = "select previous", group = "layout"}),
+    --awful.key({ modkey,           }, "space", function () awful.layout.inc( 1)                end,
+    --          {description = "select next", group = "layout"}),
+
 
     awful.key({ modkey, "Control" }, "n",
               function ()
