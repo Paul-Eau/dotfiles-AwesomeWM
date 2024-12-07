@@ -20,7 +20,7 @@ local themes_path = (home .. "/.config/awesome/theme/")
 
 local theme = {}
 
-theme.font          = "Bahnschrift 13"
+theme.font          = "Bahnschrift"
 
 theme.bg_normal     = "#1C1B1A"
 theme.bg_focus      = "#AF3029"
@@ -213,6 +213,12 @@ theme.tag_preview_widget_border_color = theme.bg_focus -- The border color of th
 theme.tag_preview_widget_border_width = 3         -- The border width of the widget
 theme.tag_preview_widget_margin = 10               -- The margin of the widget
 
+
+theme.task_preview_widget_border_radius = 4        -- Border radius of the widget (With AA)
+theme.task_preview_widget_bg = theme.bg_normal          -- The bg color of the widget
+theme.task_preview_widget_border_color = theme.bg_focus -- The border color of the widget
+theme.task_preview_widget_border_width = 2         -- The border width of the widget
+theme.task_preview_widget_margin = 0               -- The margin of the widget
 
 
 
