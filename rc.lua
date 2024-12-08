@@ -1,11 +1,9 @@
 RC = {} -- global namespace, on top before require any modules
---RC.vars = require("main.user-variables")
 
 
 pcall(require, "luarocks.loader")
 require("main.error-handling")
 
-local gears = require("gears")
 local awful = require("awful")
 local beautiful = require("beautiful")
 local menubar = require("menubar")
@@ -72,14 +70,6 @@ require("services.battery")
 
 require("widgets.osd.volume")
 require("widgets.osd.brightness")
-
-require("deco.wallpaper")
-
--- ...existing code...
-
-
-
---    require("widgets.launcher")
 
 
 

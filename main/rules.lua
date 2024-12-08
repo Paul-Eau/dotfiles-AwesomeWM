@@ -1,8 +1,6 @@
--- Standard awesome library
 local awful     = require("awful")
--- Theme handling library
 local beautiful = require("beautiful")
-require("awful.autofocus") 
+require("awful.autofocus")
 
 local _M = {}
 
