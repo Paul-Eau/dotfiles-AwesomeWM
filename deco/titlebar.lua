@@ -17,6 +17,7 @@ client.connect_signal("request::titlebars", function(c)
             c:emit_signal("request::activate", "titlebar", {raise = true})
             awful.mouse.client.move(c)
         end),
+
         awful.button({ }, 3, function()
             c:emit_signal("request::activate", "titlebar", {raise = true})
             awful.mouse.client.resize(c)
@@ -24,16 +25,18 @@ client.connect_signal("request::titlebars", function(c)
     )
 
     awful.titlebar(c) : setup {
-        { -- Left
+        -- Left
+        {
             {
                 awful.titlebar.widget.iconwidget(c),
-                margins = { right = 10 }, -- Add margin to the right of the icon
+                margins = { right = 10, left = 5, top = 3, bottom = 3 }, -- Add margin to the right of the icon
                 widget = wibox.container.margin
             },
             buttons = buttons,
             layout  = wibox.layout.fixed.horizontal
         },
-        { -- Middle
+        -- Middle
+        {
             { -- Title
                 align  = "left",
                 widget = awful.titlebar.widget.titlewidget(c)
@@ -41,11 +44,11 @@ client.connect_signal("request::titlebars", function(c)
             buttons = buttons,
             layout  = wibox.layout.flex.horizontal
         },
-        { -- Right
-            awful.titlebar.widget.floatingbutton (c),
-            awful.titlebar.widget.maximizedbutton(c),
+        -- Right
+        {
+            -- awful.titlebar.widget.floatingbutton (c),
+            -- awful.titlebar.widget.maximizedbutton(c),
             -- awful.titlebar.widget.stickybutton   (c),
-            -- awful.titlebar.widget.ontopbutton    (c),
             awful.titlebar.widget.closebutton    (c),
             layout = wibox.layout.fixed.horizontal()
         },

@@ -8,3 +8,4 @@
 
 ## ToDo
 - Resize on border
+- Changer les icones des tasks dans la tasklist suivant l'état de la fenêtre

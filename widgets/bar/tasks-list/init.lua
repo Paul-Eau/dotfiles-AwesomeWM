@@ -1,7 +1,6 @@
 -- Standard awesome library
 local gears = require("gears")
 local awful = require("awful")
-local bling = require("bling")
 local beautiful = require("beautiful")
 local wibox = require("wibox")
 
@@ -26,7 +25,7 @@ local wibox = require("wibox")
       c:kill()
     end),
     awful.button({ }, 3, function()
-      awful.menu.client_list({ theme = { width = 250 } })
+      awful.menu.client_list({ theme = { width = 550 } })
     end),
     awful.button({ }, 4, function ()
       awful.client.focus.byidx(1)
@@ -72,14 +71,6 @@ local function tasklist_widget(s)
           widget = wibox.container.background,
           create_callback = function(self, c, index, objects) --luacheck: no unused args
             self:get_children_by_id('clienticon')[1].client = c
-
-            -- BLING: Toggle the popup on hover and disable it off hover
-            self:connect_signal('mouse::enter', function()
-              awesome.emit_signal("bling::task_preview::visibility", s, true, c)
-            end)
-            self:connect_signal('mouse::leave', function()
-              awesome.emit_signal("bling::task_preview::visibility", s, false, c)
-            end)
           end,
           update_callback = function(self, c, index, objects) -- Ensure the callback is updated
             self:get_children_by_id('clienticon')[1].client = c
@@ -95,19 +86,6 @@ local function tasklist_widget(s)
     },
   }
 end
-
-bling.widget.task_preview.enable {
-  height = 400,
-  width = 400,
-  placement_fn = function(c)
-    awful.placement.right(c, {
-      margins = {
-        bottom = 50,
-        right = 64,
-      }
-    })
-  end,
-}
 
 awful.screen.connect_for_each_screen(function(s)
   s.mytasklist = tasklist_widget(s)

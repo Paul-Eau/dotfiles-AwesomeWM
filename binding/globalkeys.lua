@@ -41,7 +41,7 @@ function _M.get()
     awful.tag.viewprev,
         {description = "previous tag", group = "TAG"}),
 
-    awful.key({ "Mod4", }, "Left",
+    awful.key({ "Mod4", }, "Down",
         awful.tag.viewnext,
         {description = "next tag", group = "TAG"}),
 
