@@ -1,66 +1,91 @@
--- Standard Awesome library
 local gears = require("gears")
 local awful = require("awful")
--- Custom Local Library
 -- local titlebar = require("anybox.titlebar")
 
 local _M = {}
-local modkey = "Mod4"
 
 -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
 function _M.get()
   local clientkeys = gears.table.join(
-    awful.key({ modkey,           }, "f",
+
+  -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+
+    awful.key({ "Mod4", }, "Return",
       function (c)
         c.fullscreen = not c.fullscreen
         c:raise()
       end,
-      {description = "toggle fullscreen", group = "client"}),
+      {description = "toggle fullscreen", group = "CLIENT"}),
 
-    awful.key({ modkey, ""   }, "c",      function (c) c:kill()                         end,
-              {description = "close", group = "client"}),
+  -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
-    awful.key({ modkey, "Control" }, "space",  awful.client.floating.toggle                     ,
-              {description = "toggle floating", group = "client"}),
+    awful.key({ "Mod4", }, "f",
+      function (c)
+        c.maximized = not c.maximized
+        c:raise()
+      end ,
+      {description = "(un)maximize", group = "CLIENT"}),
 
-    awful.key({ modkey, "Control" }, "Return", function (c) c:swap(awful.client.getmaster()) end,
-              {description = "move to master", group = "client"}),
+  -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
-    awful.key({ modkey,           }, "o",      function (c) c:move_to_screen()               end,
-              {description = "move to screen", group = "client"}),
-
-    awful.key({ modkey,           }, "t",      function (c) c.ontop = not c.ontop            end,
-              {description = "toggle keep on top", group = "client"}),
-
-    awful.key({ modkey,           }, "n",
+      awful.key({ "Mod4", }, "n",
       function (c)
         -- The client currently has the input focus, so it cannot be
         -- minimized, since minimized clients can't have the focus.
         c.minimized = true
       end ,
-      {description = "minimize", group = "client"}),
+      {description = "minimize", group = "CLIENT"}),
 
-    awful.key({ modkey,           }, "m",
-      function (c)
-        c.maximized = not c.maximized
-        c:raise()
-      end ,
-      {description = "(un)maximize", group = "client"}),
+  -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
-    awful.key({ modkey, "Control" }, "m",
-      function (c)
-        c.maximized_vertical = not c.maximized_vertical
-        c:raise()
-      end ,
-      {description = "(un)maximize vertically", group = "client"}),
+  awful.key({ "Mod4", }, "c",
+  function (c)
+        c:kill()
+      end,
+      {description = "close", group = "CLIENT"}),
 
-    awful.key({ modkey, "Shift"   }, "m",
+  -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+
+    awful.key({ "Mod4", "Mod1" }, "space",
+      awful.client.floating.toggle,
+      {description = "toggle floating", group = "CLIENT"}),
+
+  -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+
+    awful.key({ "Mod4", "Mod1" }, "t",
       function (c)
-        c.maximized_horizontal = not c.maximized_horizontal
-        c:raise()
-      end ,
-      {description = "(un)maximize horizontally", group = "client"})
+        c.ontop = not c.ontop
+      end,
+      {description = "toggle keep on top", group = "CLIENT"}),
+
+  -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+
+  awful.key({ "Mod4", "Control" }, "f",
+    function (c)
+      c.maximized_vertical = not c.maximized_vertical
+      c:raise()
+    end ,
+    {description = "(un)maximize vertically", group = "CLIENT"}),
+
+  -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+
+  awful.key({ "Mod4", "Mod1"   }, "f",
+    function (c)
+      c.maximized_horizontal = not c.maximized_horizontal
+      c:raise()
+    end ,
+    {description = "(un)maximize horizontally", group = "CLIENT"}),
+
+  -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+
+  -- Voir si utilisés
+  awful.key({ "Mod4", "Control" }, "Return", function (c) c:swap(awful.client.getmaster()) end,
+            {description = "move to master", group = "client"}),
+
+  awful.key({ "Mod4",           }, "o",      function (c) c:move_to_screen()               end,
+            {description = "move to screen", group = "client"})
+
   )
 
   return clientkeys
