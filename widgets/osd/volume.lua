@@ -7,6 +7,10 @@ local rubato = require("lib.rubato")
 
 local volume_osd = {}
 
+
+
+-- ToDo : NE FAIRE QU'UN WDIGET OSD RE UTILISABLE
+
 function volume_osd:new()
   local obj = {}
   setmetatable(obj, self)
@@ -145,7 +149,7 @@ function volume_osd:show(data)
     self.widget.x = -self.widget.width
     self.show_animation.target = 30
     awful.placement.left(self.widget, { honor_workarea = true, margins = { left = 30 }, 
-      prefer_horizontal = "left", 
+      prefer_horizontal = "left",
       prefer_vertical = "center" })
 
     self.hide_animation.target = 30  -- Reset hide animation target
