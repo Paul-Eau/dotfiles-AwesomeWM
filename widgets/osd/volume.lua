@@ -67,12 +67,26 @@ function volume_osd:new()
     },
   }
 
+  obj.hide_animation = rubato.timed {
+    intro = 0.1,
+    outro = 0.1,
+    duration = 0.3,
+    rate = 60,
+    easing = rubato.easing.quadratic,
+    subscribed = function(pos)
+      obj.widget.x = pos
+    end,
+    complete = function()
+      obj.widget.visible = false
+    end
+  }
+
   obj.hide_timer = gears.timer({
     timeout = 2,
     autostart = false,
     single_shot = true,
     callback = function()
-      obj.widget.visible = false
+      obj.hide_animation.target = -obj.widget.width - 30  -- Adjust target to move completely off screen
     end
   })
 
@@ -91,10 +105,22 @@ function volume_osd:new()
     intro = 0,
     outro = 0.1,
     duration = 0.15,
+    rate = 60,
     easing = bouncy,
     subscribed = function(pos)
       local volume_bar = obj.widget:get_children_by_id("volume_bar")[1]
       volume_bar.value = pos
+    end
+  }
+
+  obj.show_animation = rubato.timed {
+    intro = 0.1,
+    outro = 0.1,
+    duration = 0.3,
+    rate = 60,
+    easing = rubato.easing.quadratic,
+    subscribed = function(pos)
+      obj.widget.x = pos
     end
   }
 
@@ -104,10 +130,6 @@ function volume_osd:new()
 
   return obj
 end
-
-
-
-
 
 function volume_osd:show(data)
   if data.skip_osd == false then
@@ -120,11 +142,15 @@ function volume_osd:show(data)
     self.volume_animation.target = data.volume
     self.widget.visible = true
     self.widget.screen = awful.screen.focused()
+    self.widget.x = -self.widget.width
+    self.show_animation.target = 30
     awful.placement.left(self.widget, { honor_workarea = true, margins = { left = 30 }, 
       prefer_horizontal = "left", 
       prefer_vertical = "center" })
 
+    self.hide_animation.target = 30  -- Reset hide animation target
     self.hide_timer:stop()
+    self.hide_timer:start()
   else
     self.hide_timer:start()
   end
