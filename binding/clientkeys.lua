@@ -5,7 +5,7 @@ local awful = require("awful")
 -- local titlebar = require("anybox.titlebar")
 
 local _M = {}
-local modkey = RC.vars.modkey
+local modkey = "Mod4"
 
 -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 

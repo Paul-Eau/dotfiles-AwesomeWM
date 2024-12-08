@@ -64,7 +64,7 @@ local function tasklist_widget(s)
             {
               id     = 'text_role',
               widget = wibox.widget.textbox,
-              font   = beautiful.font .. ' 10', -- Ensure space between font name and size
+              font   = beautiful.font, -- Ensure space between font name and size
             },
             layout = wibox.layout.fixed.horizontal,
           },

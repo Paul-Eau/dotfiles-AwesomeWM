@@ -1,6 +1,4 @@
 RC = {} -- global namespace, on top before require any modules
-RC.vars = require("main.user-variables")
-home = RC.vars.home
 
 
 ---------------------------
@@ -14,7 +12,7 @@ local dpi = xresources.apply_dpi
 
 local gfs = require("gears.filesystem")
 --local themes_path = gears.filesystem.get_themes_dir()
-local themes_path = (home .. "/.config/awesome/theme/")
+local themes_path = (os.getenv("HOME") .. "/.config/awesome/theme/")
 
 local color_scheme = "dark" or "light"
 
@@ -22,6 +20,7 @@ local color_scheme = "dark" or "light"
 local theme = {}
 
 theme.font          = "Bahnschrift"
+theme.font = theme.font or "sans"
 
 theme.bg_normal     = "#1C1B1A"
 theme.bg_focus      = "#AF3029"

@@ -3,18 +3,15 @@ local gears = require("gears")
 local awful = require("awful")
 -- local hotkeys_popup = require("awful.hotkeys_popup").widget
 local hotkeys_popup = require("awful.hotkeys_popup")
--- Menubar library
 local menubar = require("menubar")
+
+local app_launcher = require("widgets/launcher")
 
 local volume_service = require("services.volume")
 local brightness_service = require("services.brightness")
 
-local app_launcher = require("widgets/launcher")
+local modkey = "Mod4"
 
--- Resource Configuration
-local modkey = RC.vars.modkey
-local terminal = RC.vars.terminal
-local file_manager = RC.vars.file_manager
 
 local _M = {}
 
@@ -91,10 +88,10 @@ function _M.get()
 
     --   -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
     -- Standard program
-    awful.key({ modkey,           }, "t", function () awful.spawn(terminal) end,
+    awful.key({ modkey,           }, "t", function () awful.spawn("alacritty") end,
               {description = "open a terminal", group = "launcher"}),
 
-    awful.key({ modkey,           }, "e", function () awful.spawn(file_manager) end,
+    awful.key({ modkey,           }, "e", function () awful.spawn("thunar") end,
               {description = "open file-manager", group = "launcher"}),
 
     awful.key({ modkey, "Control" }, "r", awesome.restart,

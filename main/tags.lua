@@ -13,14 +13,14 @@ function _M.get ()
     tags[s] = awful.tag(
       { "1", "2", "3", "4", "5", "6", "7", "8", "9" }, s, RC.layouts[2] -- Layout par défaut
     )
-  --   s.padding = {
-  --     left = 10,
-  --     right = 10,
-  --     top = 10,
-  --     bottom = 10
-  -- }
+    s.padding = {
+      left = 10,
+      right = 10,
+      top = 10,
+      bottom = 10
+  }
   end)
-  
+
   return tags
 end
 

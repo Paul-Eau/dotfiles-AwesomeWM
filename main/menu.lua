@@ -14,7 +14,7 @@ local _M = {} -- module
 
 -- This is used later as the default terminal and editor to run.
 -- local terminal = "xfce4-terminal"
-local terminal = RC.vars.terminal
+local terminal = "alacritty"
 
 -- Variable definitions
 -- This is used later as the default terminal and editor to run.

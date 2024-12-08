@@ -1,7 +1,6 @@
 RC = {} -- global namespace, on top before require any modules
-RC.vars = require("main.user-variables")
+--RC.vars = require("main.user-variables")
 
-home = RC.vars.home
 
 pcall(require, "luarocks.loader")
 require("main.error-handling")
@@ -14,11 +13,7 @@ local menubar = require("menubar")
 
 
 -- Themes define colours, icons, font and wallpapers.
-beautiful.init(home .. "/.config/awesome/theme/theme.lua")
---beautiful.wallpaper = RC.vars.wallpaper
-
-
-modkey = RC.vars.modkey
+beautiful.init(os.getenv("HOME") .. "/.config/awesome/theme/theme.lua")
 
 
 local main = {
@@ -48,7 +43,7 @@ RC.launcher = awful.widget.launcher(
 
 -- Menubar configuration
 -- Set the terminal for applications that require it
-menubar.utils.terminal = RC.vars.terminal
+menubar.utils.terminal = "alacritty"
 
 awful.layout.layouts = RC.layouts
 
@@ -66,7 +61,7 @@ awful.rules.rules = main.rules(
 
 require("widgets.bar")
 require("main.signals")
---require("deco.rounded-corners")
+require("deco.rounded-corners")
 --require("deco.windows-borders")
 
 require("services.wifi")

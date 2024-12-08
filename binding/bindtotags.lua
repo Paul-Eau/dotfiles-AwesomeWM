@@ -3,7 +3,7 @@ local gears = require("gears")
 local awful = require("awful")
 
 local _M = {}
-local modkey = RC.vars.modkey
+local modkey = "Mod4"
 
 -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
