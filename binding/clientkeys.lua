@@ -81,10 +81,10 @@ function _M.get()
 
   -- Voir si utilisés
   awful.key({ "Mod4", "Control" }, "Return", function (c) c:swap(awful.client.getmaster()) end,
-            {description = "move to master", group = "client"}),
+    {description = "move to master", group = "client"}),
 
-  awful.key({ "Mod4",           }, "o",      function (c) c:move_to_screen()               end,
-            {description = "move to screen", group = "client"})
+  awful.key({ "Mod4",           }, "o",      function (c) c:move_to_screen() end,
+    {description = "move to screen", group = "client"})
 
   )
 
@@ -93,4 +93,4 @@ end
 
 -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
-return setmetatable({}, { __call = function(_, ...) return _M.get(...) end })
+return setmetatable({}, { __call = function(_, ...) return _M.get() end })
