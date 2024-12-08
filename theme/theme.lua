@@ -16,6 +16,7 @@ local gfs = require("gears.filesystem")
 --local themes_path = gears.filesystem.get_themes_dir()
 local themes_path = (home .. "/.config/awesome/theme/")
 
+local color_scheme = "dark" or "light"
 
 
 local theme = {}

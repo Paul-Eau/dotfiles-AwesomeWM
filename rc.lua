@@ -12,11 +12,10 @@ local beautiful = require("beautiful")
 local menubar = require("menubar")
 
 
-require("globals")
 
 -- Themes define colours, icons, font and wallpapers.
 beautiful.init(home .. "/.config/awesome/theme/theme.lua")
-beautiful.wallpaper = RC.vars.wallpaper
+--beautiful.wallpaper = RC.vars.wallpaper
 
 
 modkey = RC.vars.modkey
@@ -78,6 +77,8 @@ require("services.battery")
 
 require("widgets.osd.volume")
 require("widgets.osd.brightness")
+
+require("deco.wallpaper")
 
 -- ...existing code...
 
