@@ -9,12 +9,7 @@ local beautiful = require("beautiful")
 
 function set_wallpaper()
   -- Wallpaper
-  local wallpaper
-  if beautiful.current_scheme == "dark" and beautiful.wallpaper_dark then
-    wallpaper = beautiful.wallpaper_dark
-  elseif beautiful.current_scheme == "light" and beautiful.wallpaper_light then
-    wallpaper = beautiful.wallpaper_light
-  end
+  local wallpaper = beautiful.wallpaper
 
   if wallpaper then
     if type(wallpaper) == "function" then

@@ -66,8 +66,8 @@ awful.rules.rules = main.rules(
 
 require("widgets.bar")
 require("main.signals")
-require("deco.rounded-corners")
-require("deco.windows-borders")
+--require("deco.rounded-corners")
+--require("deco.windows-borders")
 
 require("services.wifi")
 require("services.battery")

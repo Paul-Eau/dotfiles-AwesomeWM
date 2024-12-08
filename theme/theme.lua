@@ -35,10 +35,64 @@ theme.fg_urgent     = "#ffffff"
 theme.fg_minimize   = "#ffffff"
 
 theme.useless_gap         = dpi(0)
-theme.border_width        = dpi(1)
 theme.border_color_normal = "#000000"
 theme.border_color_active = "#AF3029"
 theme.border_color_marked = "#91231c"
+
+
+
+
+if color_scheme == "dark" then
+    -- Text color
+    theme.fg_faint = "#575653"
+    theme.fg_muted = "#878580"
+    theme.fg_primary = "#CECDC3"
+    -- Background color
+    theme.bg_primary = "#100F0F"
+    theme.bg_secondary = "#1C1B1A"
+    -- UI color
+    theme.ui_1 = "#282726"
+    theme.ui_2 = "#343331"
+    theme.ui_3 = "#403E3C"
+    -- Colors
+    theme.red = "#AF3029"
+    theme.orange = "#BC5215"
+    theme.yellow = "#AD8301"
+    theme.green = "#66800B"
+    theme.cyan = "#24837B"
+    theme.blue = "#205EA6"
+    theme.purple = "#5E409D"
+    theme.mangenta = "#A02F6F"
+    -- Wallpaper
+    theme.wallpaper = theme.wallpaper_dark
+else
+    -- Text color
+    theme.fg_faint = "#B7B5AC"
+    theme.fg_muted = "#6F6E69"
+    theme.fg_primary = "#100F0F"
+    -- Background color
+    theme.bg_primary = "#FFFCF0"
+    theme.bg_secondary = "#F2F0E5"
+    -- UI color
+    theme.ui_1 = "#E6E4D9"
+    theme.ui_2 = "#DAD8CE"
+    theme.ui_3 = "#CECDC3"
+    -- Colors
+    theme.red = "#D14D41"
+    theme.orange = "#DA702C"
+    theme.yellow = "#D0A215"
+    theme.green = "#879A39"
+    theme.cyan = "#879A39"
+    theme.blue = "#4385BE"
+    theme.purple = "#8B7EC8"
+    theme.mangenta = "#CE5D97"
+    -- Wallpaper
+    theme.wallpaper = theme.wallpaper_light
+end
+
+theme.accent = theme.red
+theme.border_width = 3
+theme.border_normal = theme.accent
 
 -- There are other variable sets
 -- overriding the default one when

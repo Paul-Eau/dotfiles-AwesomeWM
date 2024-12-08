@@ -58,16 +58,16 @@ function _M.get(clientkeys, clientbuttons)
           "pop-up",       -- e.g. Google Chrome's (detached) Developer Tools.
         }
       },
-      properties = { 
-        floating = true 
+      properties = {
+        floating = true
       }
     },
 
     -- Add titlebars to normal clients and dialogs
     { rule_any = {
         type = { "normal", "dialog" }
-      }, 
-      properties = { 
+      },
+      properties = {
         titlebars_enabled = true
       }
     },
